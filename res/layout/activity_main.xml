@@ -1,0 +1,106 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </android.support.v4.view.ViewPager>
+
+    <View
+        android:id="@+id/tab_bar_split_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="#ffd6d6d6" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#fffcfcfc"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <com.ly.hi.im.view.TabShadeView
+                android:id="@+id/id_indicator_one"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_centerHorizontal="true"
+                tab:normalDrawableSrc="@drawable/tab_bg1"
+                tab:normalTextColor="#ff999999"
+                tab:selectDrawableSrc="@drawable/alb"
+                tab:selectTextColor="#ff45C01A"
+                tab:text="会话"
+                tab:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/iv_recent_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/msg_tips"
+                android:contentDescription="@string/action_settings"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <com.ly.hi.im.view.TabShadeView
+                android:id="@+id/id_indicator_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tab:normalDrawableSrc="@drawable/tab_bg2"
+                android:layout_centerHorizontal="true"
+                tab:normalTextColor="#ff999999"
+                tab:selectDrawableSrc="@drawable/al_"
+                tab:selectTextColor="#ff45C01A"
+                tab:text="联系人"
+                tab:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/iv_contact_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/msg_tips"
+                android:contentDescription="@string/action_settings"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <com.ly.hi.im.view.TabShadeView
+            android:id="@+id/id_indicator_three"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tab:normalDrawableSrc="@drawable/tab_bg3"
+            tab:normalTextColor="#ff999999"
+            tab:selectDrawableSrc="@drawable/alf"
+            tab:selectTextColor="#ff45C01A"
+            tab:text="设置"
+            tab:textSize="10sp" />
+    </LinearLayout>
+
+</LinearLayout>

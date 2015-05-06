@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="normalDrawableSrc" format="reference" />
+    <attr name="selectDrawableSrc" format="reference" />
+    <attr name="normalTextColor" format="color" />
+    <attr name="selectTextColor" format="color" />
+    <attr name="text" format="string" />
+    <attr name="textSize" format="dimension" />
+
+    <declare-styleable name="TabShadeView">
+        <attr name="normalDrawableSrc" />
+        <attr name="selectDrawableSrc" />
+        <attr name="normalTextColor" />
+        <attr name="selectTextColor" />
+        <attr name="text" />
+        <attr name="textSize" />
+    </declare-styleable>
+</resources>

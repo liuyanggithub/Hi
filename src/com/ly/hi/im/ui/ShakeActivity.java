@@ -40,6 +40,7 @@ public class ShakeActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shake);
+		ShowToast("摇一摇后将自动共享位置信息!");
 		// drawerSet ();//设置 drawer监听 切换 按钮的方向
 		initTopBarForLeft("摇一摇");
 		mHeaderLayout.getRightImageButton().setEnabled(false);

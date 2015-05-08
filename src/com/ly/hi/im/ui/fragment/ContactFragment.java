@@ -235,8 +235,9 @@ public class ContactFragment extends FragmentBase implements OnItemClickListener
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(), NearLocationActivity.class);
-//				Intent intent = new Intent(getActivity(), ShakeActivity.class);
+//				Intent intent = new Intent(getActivity(), NearPeopleActivity.class);
+//				Intent intent = new Intent(getActivity(), NearLocationActivity.class);
+				Intent intent = new Intent(getActivity(), ShakeActivity.class);
 //				Intent intent = new Intent(getActivity(), GameActivity.class);
 				
 				startAnimActivity(intent);

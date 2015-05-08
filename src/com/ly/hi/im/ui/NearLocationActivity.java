@@ -57,9 +57,12 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.ly.hi.CustomApplication;
 import com.ly.hi.R;
 import com.ly.hi.im.im.bean.User;
+import com.ly.hi.im.view.HeaderLayout.onRightImageButtonClickListener;
+import com.ly.hi.im.view.HeaderLayout.onRightTextViewClickListener;
 import com.ly.hi.lbs.biz.SendModel;
 import com.ly.hi.lbs.biz.base.BaseModel;
 import com.ly.hi.lbs.common.BizInterface;
@@ -117,6 +120,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
 					ShowToast("creat");
 				}
+				break;
 			}
 
 		}
@@ -131,6 +135,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
 					ShowToast("update");
 				}
+				break;
 			}
 
 		}
@@ -159,8 +164,19 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 		iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
 		mReceiver = new BaiduReceiver();
 		registerReceiver(mReceiver, iFilter);
-		initTopBarForLeft("附近的人");
-		mHeaderLayout.getRightImageButton().setEnabled(false);
+//		initTopBarForLeft("附近的人");
+		initTopBarForBoth("附近的人", "列表查看", new onRightTextViewClickListener() {
+			
+			@Override
+			public void onClick() {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(NearLocationActivity.this, NearPeopleActivity.class);
+				startAnimActivity(intent);
+			}
+		});
+		mHeaderLayout.getRightTextView().setEnabled(true);
+		
+//		mHeaderLayout.getRightImageButton().setEnabled(false);
 		initLocClient();
 
 		mSearch = GeoCoder.newInstance();
@@ -178,23 +194,43 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 						markerPosition = String.valueOf(marker.getPosition().latitude).substring(0, 5) + String.valueOf(marker.getPosition().longitude).substring(0, 5);
 
 						if (infoPosition.equals(markerPosition)) {
-							Button button = new Button(getApplicationContext());
-							button.setBackgroundResource(R.drawable.popup);
-							button.setText(info.title);
-							button.setTextColor(Color.BLACK);
-							LatLng ll = marker.getPosition();
-							mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(button), ll, null);
-							mBaiduMap.showInfoWindow(mInfoWindow);
-							/*
-							 * if (!info.tags.equals(user.getObjectId())) { final ProgressDialog progress = new ProgressDialog(NearLocationActivity.this);
-							 * progress.setMessage("正在添加..."); progress.setCanceledOnTouchOutside(false); progress.show(); // 发送tag请求
-							 * BmobChatManager.getInstance(getApplicationContext()).sendTagMessage(BmobConfig.TAG_ADD_CONTACT, info.tags, new PushListener() {
-							 * 
-							 * @Override public void onSuccess() { progress.dismiss(); ShowToast("发送请求成功，等待对方验证!"); }
-							 * 
-							 * @Override public void onFailure(int arg0, final String arg1) { progress.dismiss(); ShowToast("发送请求失败，请重新添加!"); ShowLog("发送请求失败:" + arg1); } });
-							 * }else{ ShowToast("自己不能添加自己"); }
-							 */
+//							Button button = new Button(getApplicationContext());
+//							button.setBackgroundResource(R.drawable.popup);
+//							button.setText(info.title);
+//							button.setTextColor(Color.BLACK);
+//							LatLng ll = marker.getPosition();
+//							mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(button), ll, null);
+//							mBaiduMap.showInfoWindow(mInfoWindow);
+
+							if (!info.title.equals(user.getUsername())) {
+//								final ProgressDialog progress = new ProgressDialog(NearLocationActivity.this);
+//								progress.setMessage("正在添加...");
+//								progress.setCanceledOnTouchOutside(false);
+//								progress.show(); // 发送tag请求
+//								BmobChatManager.getInstance(getApplicationContext()).sendTagMessage(BmobConfig.TAG_ADD_CONTACT, info.tags, new PushListener() {
+//
+//									@Override
+//									public void onSuccess() {
+//										progress.dismiss();
+//										ShowToast("发送请求成功，等待对方验证!");
+//									}
+//
+//									@Override
+//									public void onFailure(int arg0, final String arg1) {
+//										progress.dismiss();
+//										ShowToast("发送请求失败，请重新添加!");
+//										ShowLog("发送请求失败:" + arg1);
+//									}
+//								});
+								
+								Intent intent =new Intent(NearLocationActivity.this,SetMyInfoActivity.class);
+								intent.putExtra("from", "add");
+								intent.putExtra("username", info.title);
+								startAnimActivity(intent);		
+							} else {
+								ShowToast("自己不能添加自己");
+							}
+
 						}
 					}
 				}
@@ -270,18 +306,17 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 				String addrStr = lastLocation.getAddrStr();
 				if (lastLocation.getLatitude() == location.getLatitude() && lastLocation.getLongitude() == location.getLongitude()) {
 					BmobLog.i("获取坐标相同");// 若两次请求获取到的地理位置坐标是相同的，则不再定位
-//					ShowToast(userManager.getCurrentUserObjectId() + "***" + mLastObjectId);
-					
+					// ShowToast(userManager.getCurrentUserObjectId() + "***" + mLastObjectId);
+					mLocClient.stop();
 					// fixme create时程序崩溃，无log
 					if (userManager.getCurrentUserObjectId().equals(mLastObjectId)) {
-						mLocClient.stop();
 						nearbySearch(latitude, longitude);
 					} else {
 						createPoi(user.getUsername(), addrStr, user.getObjectId(), latitude, longitude, "1", "98950");
 						nearbySearch(latitude, longitude);
 						CustomApplication.getInstance().getSpUtil().setLastUser(userManager.getCurrentUserObjectId());
 					}
-					if(TextUtils.isEmpty(mLastObjectId)){
+					if (TextUtils.isEmpty(mLastObjectId)) {
 						CustomApplication.getInstance().getSpUtil().setLastUser(userManager.getCurrentUserObjectId());
 					}
 
@@ -293,8 +328,14 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 					// }
 					// }
 					return;
+				}else{
+					LatLng last = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+					LatLng now = new LatLng(location.getLatitude(), location.getLongitude());
+					if(DistanceUtil.getDistance(last, now) > 200){//移动距离超过200米
+						mIsUpdatePoi = true;
+					}
 				}
-				mIsUpdatePoi = true;
+				
 			}
 			lastLocation = location;
 
@@ -316,7 +357,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 			MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
 			mBaiduMap.animateMapStatus(u);
 			// 设置按钮可点击
-			mHeaderLayout.getRightImageButton().setEnabled(true);
+//			mHeaderLayout.getRightImageButton().setEnabled(true);
 
 		}
 	}

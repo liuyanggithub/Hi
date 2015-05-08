@@ -19,8 +19,7 @@ import com.ly.hi.R;
 
 /**
  * ²ÂÈ­ÓÎÏ·activity
- * @author liuyang
- *
+ * @author liuyang 
  */
 public class GameActivity extends Activity {
 	private ImageView p1;

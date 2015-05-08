@@ -26,6 +26,7 @@ import com.ly.hi.im.view.HeaderLayout;
 import com.ly.hi.im.view.HeaderLayout.HeaderStyle;
 import com.ly.hi.im.view.HeaderLayout.onLeftImageButtonClickListener;
 import com.ly.hi.im.view.HeaderLayout.onRightImageButtonClickListener;
+import com.ly.hi.im.view.HeaderLayout.onRightTextViewClickListener;
 import com.ly.hi.im.view.dialog.DialogTips;
 
 /** 基类
@@ -159,7 +160,6 @@ public class BaseActivity extends FragmentActivity {
 		mHeaderLayout.setTitleAndRightButton(titleName, rightDrawableId,text,
 				listener);
 	}
-	
 	public void initTopBarForBoth(String titleName, int rightDrawableId,
 			onRightImageButtonClickListener listener) {
 		mHeaderLayout = (HeaderLayout)findViewById(R.id.common_actionbar);
@@ -170,7 +170,22 @@ public class BaseActivity extends FragmentActivity {
 		mHeaderLayout.setTitleAndRightImageButton(titleName, rightDrawableId,
 				listener);
 	}
-
+	
+	/**
+	 * 初始化标题栏-带左右按钮 右边为文字
+	 * @return void
+	 * @throws
+	 */
+	public void initTopBarForBoth(String titleName,String text,
+			onRightTextViewClickListener listener) {
+		mHeaderLayout = (HeaderLayout)findViewById(R.id.common_actionbar);
+		mHeaderLayout.init(HeaderStyle.TITLE_DOUBLE_TEXTVIEW);
+		mHeaderLayout.setTitleAndLeftImageButton(titleName,
+				R.drawable.base_action_bar_back_bg_selector,
+				new OnLeftButtonClickListener());
+		mHeaderLayout.setTitleAndRightText(titleName, text, listener);
+	}
+	
 	/**
 	 * 只有左边按钮和Title initTopBarLayout
 	 * 

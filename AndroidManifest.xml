@@ -124,14 +124,17 @@
         <activity
             android:name="com.ly.hi.im.ui.RegisterActivity"
             android:label="@string/app_name" />
-        <activity android:name="com.ly.hi.im.ui.ShakeActivity" />
-        
+        <activity
+            android:name="com.ly.hi.im.ui.ShakeActivity"
+            android:label="@string/add_name"
+            android:screenOrientation="portrait" />
+
         <!-- game -->
-        <activity 
+        <activity
             android:name="com.ly.hi.game.ui.GameActivity"
             android:label="@string/add_name"
-            android:screenOrientation="portrait"
-            ></activity>
+            android:screenOrientation="portrait" >
+        </activity>
 
         <!-- baidu map -->
         <meta-data

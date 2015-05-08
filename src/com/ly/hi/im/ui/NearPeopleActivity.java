@@ -14,6 +14,7 @@ import cn.bmob.v3.listener.CountListener;
 import cn.bmob.v3.listener.FindListener;
 
 import com.ly.hi.R;
+import com.ly.hi.game.ui.GameActivity;
 import com.ly.hi.im.adapter.NearPeopleAdapter;
 import com.ly.hi.im.im.bean.User;
 import com.ly.hi.im.util.CollectionUtils;
@@ -36,7 +37,7 @@ public class NearPeopleActivity extends ActivityBase implements IXListViewListen
 
 	List<User> nears = new ArrayList<User>();
 
-	private double QUERY_KILOMETERS = 10;//默认查询10公里范围内的人
+	private double QUERY_KILOMETERS = 1;//默认查询1公里范围内的人
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -85,7 +86,8 @@ public class NearPeopleActivity extends ActivityBase implements IXListViewListen
 			//此方法默认每页查询10条数据,若想查询多于10条，可在查询之前设置BRequest.QUERY_LIMIT_COUNT，如：BRequest.QUERY_LIMIT_COUNT=20
 			// 此方法是新增的查询指定10公里内的性别为女性的用户列表，默认包含好友列表
 			//如果你不想查询性别为女的用户，可以将equalProperty设为null或者equalObj设为null即可
-			userManager.queryKiloMetersListByPage(isUpdate,0,"location", longtitude, latitude, true,QUERY_KILOMETERS,"sex",false,new FindListener<User>() {
+//			userManager.queryKiloMetersListByPage(isUpdate,0,"location", longtitude, latitude, true,QUERY_KILOMETERS,"sex",false,new FindListener<User>() {
+				userManager.queryKiloMetersListByPage(isUpdate,0,"location", longtitude, latitude, true,QUERY_KILOMETERS,null,false,new FindListener<User>() {
 			//此方法默认查询所有带地理位置信息的且性别为女的用户列表，如果你不想包含好友列表的话，将查询条件中的isShowFriends设置为false就行
 //			userManager.queryNearByListByPage(isUpdate,0,"location", longtitude, latitude, true,"sex",false,new FindListener<User>() {
 
@@ -99,7 +101,6 @@ public class NearPeopleActivity extends ActivityBase implements IXListViewListen
 						adapter.addAll(arg0);
 						if(arg0.size()<BRequest.QUERY_LIMIT_COUNT){
 							mListView.setPullLoadEnable(false);
-							ShowToast("附近的人搜索完成!");
 						}else{
 							mListView.setPullLoadEnable(true);
 						}
@@ -146,7 +147,8 @@ public class NearPeopleActivity extends ActivityBase implements IXListViewListen
 		double latitude = Double.parseDouble(mApplication.getLatitude());
 		double longtitude = Double.parseDouble(mApplication.getLongtitude());
 		//查询10公里范围内的性别为女的用户列表
-		userManager.queryKiloMetersListByPage(true,page,"location", longtitude, latitude, true,QUERY_KILOMETERS,"sex",false,new FindListener<User>() {
+//		userManager.queryKiloMetersListByPage(true,page,"location", longtitude, latitude, true,QUERY_KILOMETERS,"sex",false,new FindListener<User>() {
+			userManager.queryKiloMetersListByPage(true,page,"location", longtitude, latitude, true,QUERY_KILOMETERS,null,false,new FindListener<User>() {
 		//查询全部地理位置信息且性别为女性的用户列表
 //		userManager.queryNearByListByPage(true,page, "location", longtitude, latitude, true,"sex",false,new FindListener<User>() {
 
@@ -174,7 +176,8 @@ public class NearPeopleActivity extends ActivityBase implements IXListViewListen
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 		// TODO Auto-generated method stub
 		User user = (User) adapter.getItem(position-1);
-		Intent intent =new Intent(this,SetMyInfoActivity.class);
+//		Intent intent =new Intent(this,SetMyInfoActivity.class);
+		Intent intent =new Intent(this,GameActivity.class);
 		intent.putExtra("from", "add");
 		intent.putExtra("username", user.getUsername());
 		startAnimActivity(intent);		
@@ -203,7 +206,8 @@ public class NearPeopleActivity extends ActivityBase implements IXListViewListen
 		double latitude = Double.parseDouble(mApplication.getLatitude());
 		double longtitude = Double.parseDouble(mApplication.getLongtitude());
 		//这是查询10公里范围内的性别为女用户总数
-		userManager.queryKiloMetersTotalCount(User.class, "location", longtitude, latitude, true,QUERY_KILOMETERS,"sex",false,new CountListener() {
+//		userManager.queryKiloMetersTotalCount(User.class, "location", longtitude, latitude, true,QUERY_KILOMETERS,"sex",false,new CountListener() {
+			userManager.queryKiloMetersTotalCount(User.class, "location", longtitude, latitude, true,QUERY_KILOMETERS,null,false,new CountListener() {
 	    //这是查询附近的人且性别为女性的用户总数
 //		userManager.queryNearTotalCount(User.class, "location", longtitude, latitude, true,"sex",false,new CountListener() {
 			
@@ -214,7 +218,6 @@ public class NearPeopleActivity extends ActivityBase implements IXListViewListen
 					curPage++;
 					queryMoreNearList(curPage);
 				}else{
-					ShowToast("数据加载完成");
 					mListView.setPullLoadEnable(false);
 					refreshLoad();
 				}

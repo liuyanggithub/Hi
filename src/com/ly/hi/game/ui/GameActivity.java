@@ -3,9 +3,11 @@ package com.ly.hi.game.ui;
 import java.util.Random;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ly.hi.R;
+import com.ly.hi.im.ui.NearLocationActivity;
+import com.ly.hi.im.ui.SetMyInfoActivity;
 
 /**
  * 猜拳游戏activity
@@ -41,6 +45,9 @@ public class GameActivity extends Activity {
 	public int number2 = -1;
 	private Animation myAnimation_Alpha;
 	private long mExitTime = 0;
+	
+	private String mFrom = "";
+	private String mUserName = "";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -48,9 +55,16 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_main);
 		initView();
+		initData();
+	}
+
+	private void initData() {
+		mFrom = getIntent().getStringExtra("from");
+		mUserName = getIntent().getStringExtra("username");
 	}
 
 	public void initView() {
+		ShowToast("请尽量获得更高的分数来查看好友信息！");
 		myAnimation_Alpha = AnimationUtils.loadAnimation(
 				getApplicationContext(), R.anim.game_alpha);
 		p1 = (ImageView) findViewById(R.id.view1);
@@ -283,16 +297,32 @@ public class GameActivity extends Activity {
 					l2.setVisibility(View.VISIBLE);
 					if (25 <= mark) {
 						img.setBackgroundResource(R.drawable.game_a);
+						ShowToast("恭喜你！通关成功！");
+						Intent intent =new Intent(GameActivity.this,SetMyInfoActivity.class);
+						intent.putExtra("from", mFrom);
+						intent.putExtra("username", mUserName);
+						startActivity(intent);
+						finish();
 					} else if (20 <= mark && mark < 25) {
 						img.setBackgroundResource(R.drawable.game_b);
+						ShowToast("恭喜你！通关成功！");
+						Intent intent =new Intent(GameActivity.this,SetMyInfoActivity.class);
+						intent.putExtra("from", mFrom);
+						intent.putExtra("username", mUserName);
+						startActivity(intent);
+						finish();
 					} else if (15 <= mark && mark < 20) {
 						img.setBackgroundResource(R.drawable.game_c);
+						ShowToast("你的分数过低，请点击再来一次！");
 					} else if (10 <= mark && mark < 15) {
 						img.setBackgroundResource(R.drawable.game_d);
+						ShowToast("你的分数过低，请点击再来一次！");
 					} else if (5 <= mark && mark < 10) {
 						img.setBackgroundResource(R.drawable.game_e);
+						ShowToast("你的分数过低，请点击再来一次！");
 					} else if (mark < 5) {
 						img.setBackgroundResource(R.drawable.game_f);
+						ShowToast("你的分数过低，请点击再来一次！");
 					}
 					dj2.setVisibility(View.VISIBLE);
 					dj1.setVisibility(View.GONE);
@@ -384,5 +414,26 @@ public class GameActivity extends Activity {
 
 	public void jk() {
 		mExitTime = System.currentTimeMillis();
+	}
+	
+	Toast mToast;
+	public void ShowToast(final String text) {
+		if (!TextUtils.isEmpty(text)) {
+			runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					if (mToast == null) {
+						mToast = Toast.makeText(getApplicationContext(), text,
+								Toast.LENGTH_LONG);
+					} else {
+						mToast.setText(text);
+					}
+					mToast.show();
+				}
+			});
+			
+		}
 	}
 }

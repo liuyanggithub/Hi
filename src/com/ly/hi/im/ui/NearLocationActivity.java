@@ -60,6 +60,7 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.ly.hi.CustomApplication;
 import com.ly.hi.R;
+import com.ly.hi.game.ui.GameActivity;
 import com.ly.hi.im.im.bean.User;
 import com.ly.hi.im.view.HeaderLayout.onRightImageButtonClickListener;
 import com.ly.hi.im.view.HeaderLayout.onRightTextViewClickListener;
@@ -223,7 +224,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 //									}
 //								});
 								
-								Intent intent =new Intent(NearLocationActivity.this,SetMyInfoActivity.class);
+								Intent intent =new Intent(NearLocationActivity.this,GameActivity.class);
 								intent.putExtra("from", "add");
 								intent.putExtra("username", info.title);
 								startAnimActivity(intent);		

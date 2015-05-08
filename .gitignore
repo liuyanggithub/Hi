@@ -11,6 +11,7 @@
 # Generated files
 bin/
 gen/
+bin/dexedLibs
 
 # Gradle files
 .gradle/

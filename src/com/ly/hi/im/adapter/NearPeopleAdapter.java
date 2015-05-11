@@ -44,12 +44,13 @@ public class NearPeopleAdapter extends BaseListAdapter<User> {
 		TextView tv_logintime = ViewHolder.get(convertView, R.id.tv_logintime);
 		ImageView iv_avatar = ViewHolder.get(convertView, R.id.iv_avatar);
 		String avatar = contract.getAvatar();
-		if (avatar != null && !avatar.equals("")) {
-			ImageLoader.getInstance().displayImage(avatar, iv_avatar,
-					ImageLoadOptions.getOptions());
-		} else {
-			iv_avatar.setImageResource(R.drawable.default_head);
-		}
+//		if (avatar != null && !avatar.equals("")) {
+//			ImageLoader.getInstance().displayImage(avatar, iv_avatar,
+//					ImageLoadOptions.getOptions());
+//		} else {
+//			iv_avatar.setImageResource(R.drawable.default_head);
+//		}
+		iv_avatar.setImageResource(R.drawable.default_head);
 		BmobGeoPoint location = contract.getLocation();
 		String currentLat = CustomApplication.getInstance().getLatitude();
 		String currentLong = CustomApplication.getInstance().getLongtitude();

@@ -332,7 +332,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 				}else{
 					LatLng last = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 					LatLng now = new LatLng(location.getLatitude(), location.getLongitude());
-					if(DistanceUtil.getDistance(last, now) > 200){//移动距离超过200米
+					if(DistanceUtil.getDistance(last, now) > 100){//移动距离超过200米
 						mIsUpdatePoi = true;
 					}
 				}
@@ -492,12 +492,12 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 				mIsUpdatePoi = false;
 			}
 			mBaiduMap.clear();
-			BitmapDescriptor bd = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
+			BitmapDescriptor bd = BitmapDescriptorFactory.fromResource(R.drawable.icon_geo);
 			LatLng ll;
 			LatLngBounds.Builder builder = new Builder();
 			for (CloudPoiInfo info : result.poiList) {
 				ll = new LatLng(info.latitude, info.longitude);
-				OverlayOptions oo = new MarkerOptions().icon(bd).position(ll);
+				OverlayOptions oo = new MarkerOptions().icon(bd).position(ll).title(info.title);
 				mBaiduMap.addOverlay(oo);
 				builder.include(ll);
 			}

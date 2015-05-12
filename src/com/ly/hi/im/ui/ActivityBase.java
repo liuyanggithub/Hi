@@ -10,8 +10,7 @@ import cn.bmob.im.BmobUserManager;
 /** 除登陆注册和欢迎页面外继承的基类-用于检测是否有其他设备登录了同一账号
   * @ClassName: ActivityBase
   * @Description: TODO
-  * @author smile
-  * @date 2014-6-13 下午5:18:24
+  * @author  liuy
   */
 public class ActivityBase extends BaseActivity {
 

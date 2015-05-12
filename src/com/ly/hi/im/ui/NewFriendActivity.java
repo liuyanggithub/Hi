@@ -16,8 +16,7 @@ import com.ly.hi.im.view.dialog.DialogTips;
 /** пбеСся
   * @ClassName: NewFriendActivity
   * @Description: TODO
-  * @author smile
-  * @date 2014-6-6 обнГ4:28:09
+  * @author liuy
   */
 public class NewFriendActivity extends ActivityBase implements OnItemLongClickListener{
 	

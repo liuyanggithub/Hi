@@ -9,6 +9,8 @@ import android.util.Log;
 
 /**
  * 一个检测手机摇晃的监听器
+ * @author Administrator
+ *
  */
 public class ShakeListener implements SensorEventListener {
 	// 速度阈值，当摇晃速度达到这值后产生作用

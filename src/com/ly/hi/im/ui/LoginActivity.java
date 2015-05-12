@@ -24,9 +24,7 @@ import com.ly.hi.im.view.dialog.DialogTips;
 
 /**
  * @ClassName: LoginActivity
- * @Description: TODO
- * @author smile
- * @date 2014-6-3 обнГ4:41:42
+ * @author liuy
  */
 public class LoginActivity extends BaseActivity implements OnClickListener {
 

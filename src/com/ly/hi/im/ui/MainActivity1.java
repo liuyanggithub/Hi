@@ -29,8 +29,7 @@ import com.ly.hi.im.ui.fragment.SettingsFragment;
  * µÇÂ½
  * @ClassName: MainActivity
  * @Description: TODO
- * @author smile
- * @date 2014-5-29 ÏÂÎç2:45:35
+ * @author liuy
  */
 public class MainActivity1 extends ActivityBase implements EventListener{
 

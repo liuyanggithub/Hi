@@ -11,8 +11,7 @@ import com.ly.hi.im.im.bean.User;
  * 
  * @ClassName: SharePreferenceUtil
  * @Description: TODO
- * @author smile
- * @date 2014-6-10 обнГ4:20:14
+ * @author liuy
  */
 @SuppressLint("CommitPrefEdits")
 public class SharePreferenceUtil {

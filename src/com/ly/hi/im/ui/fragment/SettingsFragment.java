@@ -26,7 +26,7 @@ import com.ly.hi.im.util.SharePreferenceUtil;
  * 
  * @ClassName: SetFragment
  * @Description: TODO
- * @author smile
+ * @author liuy
  * @date 2014-6-7 обнГ1:00:27
  */
 @SuppressLint("SimpleDateFormat")

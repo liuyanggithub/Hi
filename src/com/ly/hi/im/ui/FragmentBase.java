@@ -20,9 +20,7 @@ import com.ly.hi.im.view.HeaderLayout.onRightImageButtonClickListener;
 
 /** Fragmenet »ùÀà
   * @ClassName: FragmentBase
-  * @Description: TODO
-  * @author smile
-  * @date 2014-5-22 ÏÂÎç2:43:50
+  * @author liuy
   */
 public abstract class FragmentBase extends Fragment {
 	

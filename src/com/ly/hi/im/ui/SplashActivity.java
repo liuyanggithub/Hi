@@ -23,8 +23,7 @@ import com.ly.hi.im.config.Config;
  * 
  * @ClassName: SplashActivity
  * @Description: TODO
- * @author smile
- * @date 2014-6-4 ионГ9:45:43
+ * @author liuy
  */
 public class SplashActivity extends BaseActivity {
 

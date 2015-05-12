@@ -78,8 +78,7 @@ import com.ly.hi.lbs.response.UpdatePoiRes;
  * 
  * @ClassName: LocationActivity
  * @Description: TODO
- * @author smile
- * @date 2014-6-23 обнГ3:17:05
+ * @author liuy
  */
 public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderResultListener, CloudListener {
 

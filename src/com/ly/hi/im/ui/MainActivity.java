@@ -37,9 +37,7 @@ import com.ly.hi.im.view.TabShadeView;
  * µÇÂ½
  * 
  * @ClassName: MainActivity
- * @Description: TODO
- * @author smile
- * @date 2014-5-29 ÏÂÎç2:45:35
+ * @author liuy
  */
 public class MainActivity extends ActivityBase implements EventListener, ViewPager.OnPageChangeListener, OnClickListener {
 

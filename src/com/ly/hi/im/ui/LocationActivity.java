@@ -36,9 +36,7 @@ import com.ly.hi.im.view.HeaderLayout.onRightImageButtonClickListener;
  * 用于发送位置的界面
  * 
  * @ClassName: LocationActivity
- * @Description: TODO
- * @author smile
- * @date 2014-6-23 下午3:17:05
+ * @author liuy
  */
 public class LocationActivity extends BaseActivity implements
 		OnGetGeoCoderResultListener {

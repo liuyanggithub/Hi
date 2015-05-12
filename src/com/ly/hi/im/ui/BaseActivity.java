@@ -31,9 +31,7 @@ import com.ly.hi.im.view.dialog.DialogTips;
 
 /** »ùÀà
   * @ClassName: BaseActivity
-  * @Description: TODO
-  * @author smile
-  * @date 2014-6-13 ÏÂÎç5:05:38
+  * @author liuy
   */
 public class BaseActivity extends FragmentActivity {
 

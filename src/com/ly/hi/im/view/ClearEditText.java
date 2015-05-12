@@ -18,8 +18,7 @@ import com.ly.hi.R;
 /** 带清除功能的文本输入框
  * @ClassName: ClearEditText
  * @Description: TODO
- * @author smile
- * @date 2014-5-4 下午4:18:45
+ * @author liuy
  */
 public class ClearEditText extends EditText implements  
        OnFocusChangeListener, TextWatcher { 

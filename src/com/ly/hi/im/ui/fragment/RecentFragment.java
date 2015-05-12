@@ -24,10 +24,7 @@ import com.ly.hi.im.view.ClearEditText;
 import com.ly.hi.im.view.dialog.DialogTips;
 
 /** 最近会话
-  * @ClassName: ConversationFragment
-  * @Description: TODO
-  * @author smile
-  * @date 2014-6-7 下午1:01:37
+  * @author liuy
   */
 public class RecentFragment extends FragmentBase implements OnItemClickListener,OnItemLongClickListener{
 

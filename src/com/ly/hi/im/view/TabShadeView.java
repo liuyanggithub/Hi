@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 /**
  * 左右滑动tab图标和文字渐变view
- * Created by yancey on 2015/4/14 0014.
  */
 public class TabShadeView extends FrameLayout {
     private final String TAG = TabShadeView.class.getSimpleName();

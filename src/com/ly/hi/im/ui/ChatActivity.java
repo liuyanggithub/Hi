@@ -83,9 +83,7 @@ import com.ly.hi.im.view.xlist.XListView.IXListViewListener;
  */
 /**
  * @ClassName: ChatActivity
- * @Description: TODO
- * @author smile
- * @date 2014-6-23 обнГ3:28:49
+ * @author liuy
  */
 @SuppressLint({ "ClickableViewAccessibility", "InflateParams" })
 public class ChatActivity extends ActivityBase implements OnClickListener,

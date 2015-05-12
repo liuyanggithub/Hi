@@ -21,7 +21,7 @@ import com.ly.hi.im.ui.listener.ShakeListener;
 
 /**
  * ҡһҡactivity
- * @author liuyang
+ * @author liuy
  *
  */
 public class ShakeActivity extends BaseActivity {

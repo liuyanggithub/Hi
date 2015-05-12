@@ -21,9 +21,7 @@ import com.ly.hi.im.view.dialog.DialogTips;
  * 黑名单列表
  * 
  * @ClassName: BlackListActivity
- * @Description: TODO
- * @author smile
- * @date 2014-6-24 下午5:17:50
+ * @author liuy
  */
 public class BlackListActivity extends ActivityBase implements OnItemClickListener {
 

@@ -17,8 +17,6 @@ import com.ly.hi.im.util.PixelUtil;
  * 
  * @ClassName: HeaderLayout
  * @Description: TODO
- * @author smile
- * @date 2014-5-19 обнГ2:30:30
  */
 public class HeaderLayout extends LinearLayout {
 	private LayoutInflater mInflater;

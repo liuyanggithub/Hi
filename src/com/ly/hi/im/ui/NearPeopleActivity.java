@@ -26,8 +26,7 @@ import com.ly.hi.im.view.xlist.XListView.IXListViewListener;
  * 
  * @ClassName: NewFriendActivity
  * @Description: TODO
- * @author smile
- * @date 2014-6-6 обнГ4:28:09
+ * @author liuy
  */
 public class NearPeopleActivity extends ActivityBase implements IXListViewListener,OnItemClickListener {
 

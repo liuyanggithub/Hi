@@ -13,8 +13,7 @@ import com.ly.hi.im.view.HeaderLayout.onRightImageButtonClickListener;
  * 
  * @ClassName: SetNickAndSexActivity
  * @Description: TODO
- * @author smile
- * @date 2014-6-7 обнГ4:03:40
+ * @author liuy
  */
 public class UpdateInfoActivity extends ActivityBase {
 

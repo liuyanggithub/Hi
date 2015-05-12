@@ -59,9 +59,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * 个人资料页面
  * 
  * @ClassName: SetMyInfoActivity
- * @Description: TODO
- * @author smile
- * @date 2014-6-10 下午2:55:19
+ * @author liuy
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 @SuppressLint({ "SimpleDateFormat", "ClickableViewAccessibility", "InflateParams" })

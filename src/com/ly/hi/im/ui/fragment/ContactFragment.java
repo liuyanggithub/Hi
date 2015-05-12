@@ -58,9 +58,7 @@ import com.ly.hi.im.view.dialog.DialogTips;
 /**
  * 联系人
  * @ClassName: ContactFragment
- * @Description: TODO
- * @author smile
- * @date 2014-6-7 下午1:02:05
+ * @author liuy
  */
 @SuppressLint("DefaultLocale")
 public class ContactFragment extends FragmentBase implements OnItemClickListener,OnItemLongClickListener{

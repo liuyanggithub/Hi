@@ -24,6 +24,11 @@ import com.ly.hi.im.config.HiConstants;
 import com.ly.hi.im.im.bean.User;
 import com.ly.hi.im.util.CommonUtils;
 
+/**
+ * зЂВс
+ * @author liuy
+ *
+ */
 public class RegisterActivity extends BaseActivity {
 
 	Button btn_register;

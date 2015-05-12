@@ -26,9 +26,7 @@ import com.ly.hi.im.view.xlist.XListView.IXListViewListener;
 
 /** Ìí¼ÓºÃÓÑ
   * @ClassName: AddFriendActivity
-  * @Description: TODO
-  * @author smile
-  * @date 2014-6-5 ÏÂÎç5:26:41
+  * @author liuy
   */
 public class AddFriendActivity extends ActivityBase implements OnClickListener,IXListViewListener,OnItemClickListener{
 	

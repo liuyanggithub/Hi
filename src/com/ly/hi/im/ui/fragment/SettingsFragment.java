@@ -35,7 +35,7 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 	Button btn_logout;
 	TextView tv_set_name;
 	RelativeLayout layout_info, rl_switch_notification, rl_switch_voice,
-			rl_switch_vibrate,layout_blacklist;
+			rl_switch_vibrate;
 
 	ImageView iv_open_notification, iv_close_notification, iv_open_voice,
 			iv_close_voice, iv_open_vibrate, iv_close_vibrate;
@@ -69,7 +69,7 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 	private void initView() {
 		initTopBarForOnlyTitle("设置");
 		//黑名单列表
-		layout_blacklist = (RelativeLayout) findViewById(R.id.layout_blacklist);
+//		layout_blacklist = (RelativeLayout) findViewById(R.id.layout_blacklist);
 		
 		layout_info = (RelativeLayout) findViewById(R.id.layout_info);
 		rl_switch_notification = (RelativeLayout) findViewById(R.id.rl_switch_notification);
@@ -119,7 +119,7 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 		}
 		btn_logout.setOnClickListener(this);
 		layout_info.setOnClickListener(this);
-		layout_blacklist.setOnClickListener(this);
+//		layout_blacklist.setOnClickListener(this);
 
 	}
 
@@ -138,9 +138,9 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.layout_blacklist:// 启动到黑名单页面
-			startAnimActivity(new Intent(getActivity(),BlackListActivity.class));
-			break;
+//		case R.id.layout_blacklist:// 启动到黑名单页面
+//			startAnimActivity(new Intent(getActivity(),BlackListActivity.class));
+//			break;
 		case R.id.layout_info:// 启动到个人资料页面
 			Intent intent =new Intent(getActivity(),SetMyInfoActivity.class);
 			intent.putExtra("from", "me");

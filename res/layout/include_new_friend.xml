@@ -84,5 +84,39 @@
             android:text="@string/near_people"
             android:textSize="20sp" />
     </LinearLayout>
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/base_line_width_1"
+        android:layout_below="@id/layout_near"
+        android:background="@drawable/base_horizontal_line" >
+    </View>
+    <LinearLayout
+        android:id="@+id/layout_blacklist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line2"
+        android:clickable="true"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="50.0dip"
+            android:layout_height="50.0dip"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="6.0dip"
+            android:contentDescription="@string/action_settings"
+            android:padding="5dp"
+            android:src="@drawable/icon_blacklist" />
+
+        <TextView
+            style="@style/Smile.TextView._Black"
+            android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="@string/black_list"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 </RelativeLayout>

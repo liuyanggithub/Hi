@@ -1,28 +1,21 @@
 package com.ly.hi.im.ui;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
-import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.BmobUserManager;
-import cn.bmob.im.config.BmobConfig;
 import cn.bmob.im.util.BmobLog;
-import cn.bmob.v3.listener.PushListener;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -62,7 +55,6 @@ import com.ly.hi.CustomApplication;
 import com.ly.hi.R;
 import com.ly.hi.game.ui.GameActivity;
 import com.ly.hi.im.im.bean.User;
-import com.ly.hi.im.view.HeaderLayout.onRightImageButtonClickListener;
 import com.ly.hi.im.view.HeaderLayout.onRightTextViewClickListener;
 import com.ly.hi.lbs.biz.SendModel;
 import com.ly.hi.lbs.biz.base.BaseModel;

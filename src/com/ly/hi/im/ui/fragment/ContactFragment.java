@@ -40,6 +40,7 @@ import com.ly.hi.game.ui.GameActivity;
 import com.ly.hi.im.adapter.UserFriendAdapter;
 import com.ly.hi.im.im.bean.User;
 import com.ly.hi.im.ui.AddFriendActivity;
+import com.ly.hi.im.ui.BlackListActivity;
 import com.ly.hi.im.ui.FragmentBase;
 import com.ly.hi.im.ui.NearLocationActivity;
 import com.ly.hi.im.ui.NearPeopleActivity;
@@ -211,6 +212,7 @@ public class ContactFragment extends FragmentBase implements OnItemClickListener
 	TextView tv_new_name;
 	LinearLayout layout_new;//新朋友
 	LinearLayout layout_near;//附近的人,摇一摇
+	LinearLayout layout_black_list;//黑名单
 	
 	private void initListView() {
 		list_friends= (ListView)findViewById(R.id.list_friends);
@@ -218,6 +220,7 @@ public class ContactFragment extends FragmentBase implements OnItemClickListener
 		iv_msg_tips = (ImageView)headView.findViewById(R.id.iv_msg_tips);
 		layout_new =(LinearLayout)headView.findViewById(R.id.layout_new);
 		layout_near =(LinearLayout)headView.findViewById(R.id.layout_near);
+		layout_black_list = (LinearLayout) headView.findViewById(R.id.layout_blacklist);
 		layout_new.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -238,6 +241,15 @@ public class ContactFragment extends FragmentBase implements OnItemClickListener
 				Intent intent = new Intent(getActivity(), ShakeActivity.class);
 //				Intent intent = new Intent(getActivity(), GameActivity.class);
 				
+				startAnimActivity(intent);
+			}
+		});
+		
+		layout_black_list.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), BlackListActivity.class);
 				startAnimActivity(intent);
 			}
 		});

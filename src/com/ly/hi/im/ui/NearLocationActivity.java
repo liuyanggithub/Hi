@@ -63,6 +63,7 @@ import com.ly.hi.lbs.request.CreatePoiReq;
 import com.ly.hi.lbs.request.UpdatePoiReq;
 import com.ly.hi.lbs.response.BaseResponseParams;
 import com.ly.hi.lbs.response.CreatePoiRes;
+import com.ly.hi.lbs.response.DetailTablesRes;
 import com.ly.hi.lbs.response.UpdatePoiRes;
 
 /**
@@ -94,14 +95,14 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 
 	private SendModel mModel = null;// 发送请求
 
-	private BmobUserManager userManager;
-	private User user;
+	private BmobUserManager mUserManager;
+	private User mUser;
 
 	private InfoWindow mInfoWindow;
 
 	private List<CloudPoiInfo> mPoiInfos;
 
-	private boolean mIsUpdatePoi = false;
+//	private boolean mIsUpdatePoi = false;
 
 	private Handler mCreatePoiHandler = new Handler() {
 		@Override
@@ -132,13 +133,37 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 
 		}
 	};
+	
+	private Handler mDetailTableHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case BaseModel.MSG_SUC:
+				BaseResponseParams<DetailTablesRes> response = (BaseResponseParams<DetailTablesRes>) msg.obj;
+				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
+					String latitude = lastLocation.getLatitude() + "";
+					String longitude = lastLocation.getLongitude() + "";
+					String addrStr = lastLocation.getAddrStr();
+					if (!TextUtils.isEmpty(response.getObj().getPois().get(0).getId())) {
+						String geoId = response.getObj().getPois().get(0).getId();
+						updatePoi(geoId, mUser.getUsername(), 
+								addrStr, latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
+					}else{
+						createPoi(mUser.getUsername(), addrStr, mUser.getObjectId(), latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
+					}
+				}
+				break;
+			}
+
+		}
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_near_location);
-		userManager = BmobUserManager.getInstance(this);
-		user = userManager.getCurrentUser(User.class);
+		mUserManager = BmobUserManager.getInstance(this);
+		mUser = mUserManager.getCurrentUser(User.class);
 		mLastObjectId = CustomApplication.getInstance().getSpUtil().getLastUser();
 		CloudManager.getInstance().init(NearLocationActivity.this);
 		initBaiduMap();
@@ -194,7 +219,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 //							mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(button), ll, null);
 //							mBaiduMap.showInfoWindow(mInfoWindow);
 
-							if (!info.title.equals(user.getUsername())) {
+							if (!info.title.equals(mUser.getUsername())) {
 //								final ProgressDialog progress = new ProgressDialog(NearLocationActivity.this);
 //								progress.setMessage("正在添加...");
 //								progress.setCanceledOnTouchOutside(false);
@@ -298,33 +323,24 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 				String addrStr = lastLocation.getAddrStr();
 				if (lastLocation.getLatitude() == location.getLatitude() && lastLocation.getLongitude() == location.getLongitude()) {
 					BmobLog.i("获取坐标相同");// 若两次请求获取到的地理位置坐标是相同的，则不再定位
-					// ShowToast(userManager.getCurrentUserObjectId() + "***" + mLastObjectId);
 					mLocClient.stop();
-					// fixme create时程序崩溃，无log
-					if (userManager.getCurrentUserObjectId().equals(mLastObjectId)) {
+					if (mUserManager.getCurrentUserObjectId().equals(mLastObjectId)) {
 						nearbySearch(latitude, longitude);
 					} else {
-						createPoi(user.getUsername(), addrStr, user.getObjectId(), latitude, longitude, "1", "98950");
+						createPoi(mUser.getUsername(), addrStr, mUser.getObjectId(), latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
 						nearbySearch(latitude, longitude);
-						CustomApplication.getInstance().getSpUtil().setLastUser(userManager.getCurrentUserObjectId());
+						CustomApplication.getInstance().getSpUtil().setLastUser(mUserManager.getCurrentUserObjectId());
 					}
 					if (TextUtils.isEmpty(mLastObjectId)) {
-						CustomApplication.getInstance().getSpUtil().setLastUser(userManager.getCurrentUserObjectId());
+						CustomApplication.getInstance().getSpUtil().setLastUser(mUserManager.getCurrentUserObjectId());
 					}
-
-					// TODO 位置相同 用户不同 位置添加
-					// for(CloudPoiInfo info : mPoiInfos){
-					// if(info.tags.equals(user.getObjectId())){
-					// updatePoi(String.valueOf(info.uid), user.getObjectId(),
-					// addrStr, latitude, longitude, "1", "98950");
-					// }
-					// }
 					return;
 				}else{
 					LatLng last = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 					LatLng now = new LatLng(location.getLatitude(), location.getLongitude());
-					if(DistanceUtil.getDistance(last, now) > 100){//移动距离超过200米
-						mIsUpdatePoi = true;
+					if(DistanceUtil.getDistance(last, now) > 100){//移动距离超过100米
+//						mIsUpdatePoi = true;
+						getDetailTable();
 					}
 				}
 				
@@ -369,6 +385,14 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 		CloudManager.getInstance().nearbySearch(info);
 	}
 
+	
+	/**
+	 * 获取列表详细
+	 */
+	protected void getDetailTable() {
+		mModel = new SendModel(mDetailTableHandler, getApplicationContext(), getTag(), getRequestQueue());
+		mModel.detailGeotable(mUser.getUsername());
+	}
 	/**
 	 * 构造广播监听类，监听 SDK key 验证以及网络异常广播
 	 */
@@ -469,19 +493,19 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 			Log.d(TAG, "onGetSearchResult, result length: " + result.poiList.size());
 			mPoiInfos = new ArrayList<CloudPoiInfo>();
 			mPoiInfos.addAll(result.poiList);
-			if (mIsUpdatePoi) {
-				String latitude = lastLocation.getLatitude() + "";
-				String longitude = lastLocation.getLongitude() + "";
-				String addrStr = lastLocation.getAddrStr();
-				for (CloudPoiInfo info : mPoiInfos) {
-					Map<String, Object> extras = info.extras;
-
-					if (info.tags.equals(user.getObjectId())) {
-						updatePoi(String.valueOf(info.uid), user.getUsername(), addrStr, latitude, longitude, "1", "98950");
-					}
-				}
-				mIsUpdatePoi = false;
-			}
+//			if (mIsUpdatePoi) {
+//				String latitude = lastLocation.getLatitude() + "";
+//				String longitude = lastLocation.getLongitude() + "";
+//				String addrStr = lastLocation.getAddrStr();
+//				for (CloudPoiInfo info : mPoiInfos) {
+//					Map<String, Object> extras = info.extras;
+//
+//					if (info.tags.equals(mUser.getObjectId())) {
+//						updatePoi(String.valueOf(info.uid), mUser.getUsername(), addrStr, latitude, longitude, "1", "98950");
+//					}
+//				}
+//				mIsUpdatePoi = false;
+//			}
 			mBaiduMap.clear();
 			BitmapDescriptor bd = BitmapDescriptorFactory.fromResource(R.drawable.icon_geo);
 			LatLng ll;

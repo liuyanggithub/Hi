@@ -3,26 +3,32 @@ package com.ly.hi.im.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.Vibrator;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import cn.bmob.im.BmobUserManager;
 
-import com.baidu.mapapi.cloud.CloudListener;
-import com.baidu.mapapi.cloud.CloudManager;
-import com.baidu.mapapi.cloud.CloudSearchResult;
-import com.baidu.mapapi.cloud.DetailSearchResult;
 import com.ly.hi.R;
+import com.ly.hi.im.im.bean.User;
 import com.ly.hi.im.ui.listener.ShakeListener;
+import com.ly.hi.im.view.HeaderLayout.onRightTextViewClickListener;
+import com.ly.hi.lbs.biz.SendModel;
+import com.ly.hi.lbs.biz.base.BaseModel;
+import com.ly.hi.lbs.response.BaseResponseParams;
+import com.ly.hi.lbs.response.DeletePoiRes;
+import com.ly.hi.lbs.response.DetailTablesRes;
 
 /**
  * 摇一摇activity
+ * 
  * @author liuy
- *
+ * 
  */
 public class ShakeActivity extends BaseActivity {
 
@@ -35,15 +41,66 @@ public class ShakeActivity extends BaseActivity {
 	// private SlidingDrawer mDrawer;
 	private Button mDrawerBtn;
 
+	private SendModel mModel = null;// 发送请求
+	private BmobUserManager mUserManager;
+	private User mUser;
+
+	private Handler mDetailTableHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case BaseModel.MSG_SUC:
+				BaseResponseParams<DetailTablesRes> response = (BaseResponseParams<DetailTablesRes>) msg.obj;
+				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
+					if (!TextUtils.isEmpty(response.getObj().getPois().get(0).getId())) {
+						String geoId = response.getObj().getPois().get(0).getId();
+						deleteGeo(geoId);
+					}
+				}
+				break;
+			}
+
+		}
+	};
+	
+	private Handler mDeleteGeoHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case BaseModel.MSG_SUC:
+				BaseResponseParams<DeletePoiRes> response = (BaseResponseParams<DeletePoiRes>) msg.obj;
+				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
+					ShowToast("delete");
+				}
+				break;
+			}
+
+		}
+	};
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shake);
 		ShowToast("摇一摇后将自动共享位置信息!");
+		mUserManager = BmobUserManager.getInstance(this);
 		// drawerSet ();//设置 drawer监听 切换 按钮的方向
-		initTopBarForLeft("摇一摇");
-		mHeaderLayout.getRightImageButton().setEnabled(false);
+		// initTopBarForLeft("摇一摇");
+		// mHeaderLayout.getRightImageButton().setEnabled(false);
+
+		initTopBarForBoth("摇一摇", "清除位置", new onRightTextViewClickListener() {
+
+			@Override
+			public void onClick() {
+				// TODO Auto-generated method stub
+				// Intent intent = new Intent(ShakeActivity.this, NearPeopleActivity.class);
+				// startAnimActivity(intent);
+				getDetailTable();
+
+			}
+		});
+		mHeaderLayout.getRightTextView().setEnabled(true);
 
 		mVibrator = (Vibrator) getApplication().getSystemService(VIBRATOR_SERVICE);
 
@@ -91,6 +148,24 @@ public class ShakeActivity extends BaseActivity {
 				}, 2000);
 			}
 		});
+	}
+
+	/**
+	 * 删除数据
+	 */
+	protected void deleteGeo(String id) {
+		mModel = new SendModel(mDeleteGeoHandler, getApplicationContext(), getTag(), getRequestQueue());
+		mModel.deletePoi(id);
+	}
+
+	/**
+	 * 获取列表详细
+	 */
+	protected void getDetailTable() {
+		mModel = new SendModel(mDetailTableHandler, getApplicationContext(), getTag(), getRequestQueue());
+
+		mUser = mUserManager.getCurrentUser(User.class);
+		mModel.detailGeotable(mUser.getUsername());
 	}
 
 	public void startAnim() { // 定义摇一摇动画动画

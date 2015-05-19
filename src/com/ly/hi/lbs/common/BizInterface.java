@@ -27,5 +27,14 @@ public interface BizInterface {
      * 更新坐标点
      */
     String UPDATE_POI = "http://api.map.baidu.com/geodata/v3/poi/update";
+    /**
+     * 删除坐标点
+     */
+    String DELETE_POI = "http://api.map.baidu.com/geodata/v3/poi/delete";
+    /**
+     * 查询表详细数据
+     */
+    String DETAIL_GEOTABLE = new StringBuffer("http://api.map.baidu.com/geodata/v3/poi/list?geotable_id="
+    ).append(BAIDU_LBS_GEOTABLE_ID).append("&ak=").append(BAIDU_LBS_AK).append("&title=").toString();
     
 }

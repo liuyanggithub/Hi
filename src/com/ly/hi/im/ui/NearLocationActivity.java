@@ -89,7 +89,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 	GeoCoder mSearch = null; // 搜索模块，因为百度定位sdk能够得到经纬度，但是却无法得到具体的详细地址，因此需要采取反编码方式去搜索此经纬度代表的地址
 
 	static BDLocation lastLocation = null;
-	static String mLastObjectId = null;
+	// static String mLastObjectId = null;
 
 	BitmapDescriptor bdgeo = BitmapDescriptorFactory.fromResource(R.drawable.icon_geo);
 
@@ -102,7 +102,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 
 	private List<CloudPoiInfo> mPoiInfos;
 
-//	private boolean mIsUpdatePoi = false;
+	// private boolean mIsUpdatePoi = false;
 
 	private Handler mCreatePoiHandler = new Handler() {
 		@Override
@@ -133,7 +133,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 
 		}
 	};
-	
+
 	private Handler mDetailTableHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -144,11 +144,10 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 					String latitude = lastLocation.getLatitude() + "";
 					String longitude = lastLocation.getLongitude() + "";
 					String addrStr = lastLocation.getAddrStr();
-					if (!TextUtils.isEmpty(response.getObj().getPois().get(0).getId())) {
+					if (response.getObj().getPois() != null && response.getObj().getPois().size() > 0) {
 						String geoId = response.getObj().getPois().get(0).getId();
-						updatePoi(geoId, mUser.getUsername(), 
-								addrStr, latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
-					}else{
+						updatePoi(geoId, mUser.getUsername(), addrStr, latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
+					} else {
 						createPoi(mUser.getUsername(), addrStr, mUser.getObjectId(), latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
 					}
 				}
@@ -164,7 +163,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 		setContentView(R.layout.activity_near_location);
 		mUserManager = BmobUserManager.getInstance(this);
 		mUser = mUserManager.getCurrentUser(User.class);
-		mLastObjectId = CustomApplication.getInstance().getSpUtil().getLastUser();
+		// mLastObjectId = CustomApplication.getInstance().getSpUtil().getLastUser();
 		CloudManager.getInstance().init(NearLocationActivity.this);
 		initBaiduMap();
 	}
@@ -181,19 +180,20 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 		iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
 		mReceiver = new BaiduReceiver();
 		registerReceiver(mReceiver, iFilter);
-//		initTopBarForLeft("附近的人");
+		// initTopBarForLeft("附近的人");
 		initTopBarForBoth("附近的人", "列表查看", new onRightTextViewClickListener() {
-			
+
 			@Override
 			public void onClick() {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(NearLocationActivity.this, NearPeopleActivity.class);
 				startAnimActivity(intent);
+				finish();
 			}
 		});
 		mHeaderLayout.getRightTextView().setEnabled(true);
-		
-//		mHeaderLayout.getRightImageButton().setEnabled(false);
+
+		// mHeaderLayout.getRightImageButton().setEnabled(false);
 		initLocClient();
 
 		mSearch = GeoCoder.newInstance();
@@ -211,39 +211,40 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 						markerPosition = String.valueOf(marker.getPosition().latitude).substring(0, 5) + String.valueOf(marker.getPosition().longitude).substring(0, 5);
 
 						if (infoPosition.equals(markerPosition)) {
-//							Button button = new Button(getApplicationContext());
-//							button.setBackgroundResource(R.drawable.popup);
-//							button.setText(info.title);
-//							button.setTextColor(Color.BLACK);
-//							LatLng ll = marker.getPosition();
-//							mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(button), ll, null);
-//							mBaiduMap.showInfoWindow(mInfoWindow);
+							// Button button = new Button(getApplicationContext());
+							// button.setBackgroundResource(R.drawable.popup);
+							// button.setText(info.title);
+							// button.setTextColor(Color.BLACK);
+							// LatLng ll = marker.getPosition();
+							// mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(button), ll, null);
+							// mBaiduMap.showInfoWindow(mInfoWindow);
 
 							if (!info.title.equals(mUser.getUsername())) {
-//								final ProgressDialog progress = new ProgressDialog(NearLocationActivity.this);
-//								progress.setMessage("正在添加...");
-//								progress.setCanceledOnTouchOutside(false);
-//								progress.show(); // 发送tag请求
-//								BmobChatManager.getInstance(getApplicationContext()).sendTagMessage(BmobConfig.TAG_ADD_CONTACT, info.tags, new PushListener() {
-//
-//									@Override
-//									public void onSuccess() {
-//										progress.dismiss();
-//										ShowToast("发送请求成功，等待对方验证!");
-//									}
-//
-//									@Override
-//									public void onFailure(int arg0, final String arg1) {
-//										progress.dismiss();
-//										ShowToast("发送请求失败，请重新添加!");
-//										ShowLog("发送请求失败:" + arg1);
-//									}
-//								});
-								
-								Intent intent =new Intent(NearLocationActivity.this,GameActivity.class);
+								// final ProgressDialog progress = new ProgressDialog(NearLocationActivity.this);
+								// progress.setMessage("正在添加...");
+								// progress.setCanceledOnTouchOutside(false);
+								// progress.show(); // 发送tag请求
+								// BmobChatManager.getInstance(getApplicationContext()).sendTagMessage(BmobConfig.TAG_ADD_CONTACT, info.tags, new PushListener() {
+								//
+								// @Override
+								// public void onSuccess() {
+								// progress.dismiss();
+								// ShowToast("发送请求成功，等待对方验证!");
+								// }
+								//
+								// @Override
+								// public void onFailure(int arg0, final String arg1) {
+								// progress.dismiss();
+								// ShowToast("发送请求失败，请重新添加!");
+								// ShowLog("发送请求失败:" + arg1);
+								// }
+								// });
+
+								Intent intent = new Intent(NearLocationActivity.this, GameActivity.class);
 								intent.putExtra("from", "add");
 								intent.putExtra("username", info.title);
-								startAnimActivity(intent);		
+								startAnimActivity(intent);
+								finish();
 							} else {
 								ShowToast("自己不能添加自己");
 							}
@@ -324,26 +325,27 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 				if (lastLocation.getLatitude() == location.getLatitude() && lastLocation.getLongitude() == location.getLongitude()) {
 					BmobLog.i("获取坐标相同");// 若两次请求获取到的地理位置坐标是相同的，则不再定位
 					mLocClient.stop();
-					if (mUserManager.getCurrentUserObjectId().equals(mLastObjectId)) {
-						nearbySearch(latitude, longitude);
-					} else {
-						createPoi(mUser.getUsername(), addrStr, mUser.getObjectId(), latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
-						nearbySearch(latitude, longitude);
-						CustomApplication.getInstance().getSpUtil().setLastUser(mUserManager.getCurrentUserObjectId());
-					}
-					if (TextUtils.isEmpty(mLastObjectId)) {
-						CustomApplication.getInstance().getSpUtil().setLastUser(mUserManager.getCurrentUserObjectId());
-					}
+					// if (mUserManager.getCurrentUserObjectId().equals(mLastObjectId)) {
+					// nearbySearch(latitude, longitude);
+					// } else {
+					// createPoi(mUser.getUsername(), addrStr, mUser.getObjectId(), latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
+					getDetailTableByName(mUser.getUsername());
+					nearbySearch(latitude, longitude);
+					// CustomApplication.getInstance().getSpUtil().setLastUser(mUserManager.getCurrentUserObjectId());
+					// }
+					// if (TextUtils.isEmpty(mLastObjectId)) {
+					// CustomApplication.getInstance().getSpUtil().setLastUser(mUserManager.getCurrentUserObjectId());
+					// }
 					return;
-				}else{
+				} else {
 					LatLng last = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 					LatLng now = new LatLng(location.getLatitude(), location.getLongitude());
-					if(DistanceUtil.getDistance(last, now) > 100){//移动距离超过100米
-//						mIsUpdatePoi = true;
-						getDetailTable();
+					if (DistanceUtil.getDistance(last, now) > 100) {// 移动距离超过100米
+						// mIsUpdatePoi = true;
+						getDetailTableByName(mUser.getUsername());
 					}
 				}
-				
+
 			}
 			lastLocation = location;
 
@@ -365,7 +367,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 			MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
 			mBaiduMap.animateMapStatus(u);
 			// 设置按钮可点击
-//			mHeaderLayout.getRightImageButton().setEnabled(true);
+			// mHeaderLayout.getRightImageButton().setEnabled(true);
 
 		}
 	}
@@ -385,14 +387,14 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 		CloudManager.getInstance().nearbySearch(info);
 	}
 
-	
 	/**
 	 * 获取列表详细
 	 */
-	protected void getDetailTable() {
+	protected void getDetailTableByName(String name) {
 		mModel = new SendModel(mDetailTableHandler, getApplicationContext(), getTag(), getRequestQueue());
-		mModel.detailGeotable(mUser.getUsername());
+		mModel.detailGeotable(name);
 	}
+
 	/**
 	 * 构造广播监听类，监听 SDK key 验证以及网络异常广播
 	 */
@@ -493,32 +495,35 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 			Log.d(TAG, "onGetSearchResult, result length: " + result.poiList.size());
 			mPoiInfos = new ArrayList<CloudPoiInfo>();
 			mPoiInfos.addAll(result.poiList);
-//			if (mIsUpdatePoi) {
-//				String latitude = lastLocation.getLatitude() + "";
-//				String longitude = lastLocation.getLongitude() + "";
-//				String addrStr = lastLocation.getAddrStr();
-//				for (CloudPoiInfo info : mPoiInfos) {
-//					Map<String, Object> extras = info.extras;
-//
-//					if (info.tags.equals(mUser.getObjectId())) {
-//						updatePoi(String.valueOf(info.uid), mUser.getUsername(), addrStr, latitude, longitude, "1", "98950");
-//					}
-//				}
-//				mIsUpdatePoi = false;
-//			}
+			// if (mIsUpdatePoi) {
+			// String latitude = lastLocation.getLatitude() + "";
+			// String longitude = lastLocation.getLongitude() + "";
+			// String addrStr = lastLocation.getAddrStr();
+			// for (CloudPoiInfo info : mPoiInfos) {
+			// Map<String, Object> extras = info.extras;
+			//
+			// if (info.tags.equals(mUser.getObjectId())) {
+			// updatePoi(String.valueOf(info.uid), mUser.getUsername(), addrStr, latitude, longitude, "1", "98950");
+			// }
+			// }
+			// mIsUpdatePoi = false;
+			// }
 			mBaiduMap.clear();
 			BitmapDescriptor bd = BitmapDescriptorFactory.fromResource(R.drawable.icon_geo);
 			LatLng ll;
 			LatLngBounds.Builder builder = new Builder();
-			for (CloudPoiInfo info : result.poiList) {
+			for (CloudPoiInfo info : mPoiInfos) {
+				if (info.title.equals(mUser.getUsername())) {
+					continue;
+				}
 				ll = new LatLng(info.latitude, info.longitude);
 				OverlayOptions oo = new MarkerOptions().icon(bd).position(ll).title(info.title);
 				mBaiduMap.addOverlay(oo);
 				builder.include(ll);
+				LatLngBounds bounds = builder.build();
+				MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(bounds);
+				mBaiduMap.animateMapStatus(u);
 			}
-			LatLngBounds bounds = builder.build();
-			MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(bounds);
-			mBaiduMap.animateMapStatus(u);
 		}
 	}
 

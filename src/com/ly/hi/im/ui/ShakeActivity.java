@@ -52,7 +52,7 @@ public class ShakeActivity extends BaseActivity {
 			case BaseModel.MSG_SUC:
 				BaseResponseParams<DetailTablesRes> response = (BaseResponseParams<DetailTablesRes>) msg.obj;
 				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-					if (!TextUtils.isEmpty(response.getObj().getPois().get(0).getId())) {
+					if (response.getObj().getPois() != null && response.getObj().getPois().size() > 0) {
 						String geoId = response.getObj().getPois().get(0).getId();
 						deleteGeo(geoId);
 					}
@@ -143,7 +143,7 @@ public class ShakeActivity extends BaseActivity {
 						startActivity(intent);
 						mVibrator.cancel();
 						mShakeListener.start();
-						finish();
+//						finish();
 					}
 				}, 2000);
 			}

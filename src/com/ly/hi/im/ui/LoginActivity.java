@@ -144,7 +144,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 				// TODO Auto-generated method stub
 				progress.dismiss();
 				BmobLog.i(arg0);
-				ShowToast(arg0);
+				ShowToast("登陆信息有误，请重试！");
 			}
 		});
 		

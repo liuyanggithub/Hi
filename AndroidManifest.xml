@@ -133,6 +133,7 @@
         <activity
             android:name="com.ly.hi.game.ui.GameActivity"
             android:label="@string/add_name"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait" >
         </activity>
 

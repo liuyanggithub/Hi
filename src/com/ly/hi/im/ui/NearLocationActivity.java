@@ -111,7 +111,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 			case BaseModel.MSG_SUC:
 				BaseResponseParams<CreatePoiRes> response = (BaseResponseParams<CreatePoiRes>) msg.obj;
 				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-					ShowToast("creat");
+					ShowToast("creat" + response.getMessage());
 				}
 				break;
 			}
@@ -126,7 +126,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 			case BaseModel.MSG_SUC:
 				BaseResponseParams<UpdatePoiRes> response = (BaseResponseParams<UpdatePoiRes>) msg.obj;
 				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-					ShowToast("update");
+					ShowToast("update" + response.getMessage());
 				}
 				break;
 			}
@@ -144,7 +144,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 					String latitude = lastLocation.getLatitude() + "";
 					String longitude = lastLocation.getLongitude() + "";
 					String addrStr = lastLocation.getAddrStr();
-					if (response.getObj().getPois() != null && response.getObj().getPois().size() > 0) {
+					if (!"0".equals(response.getObj().getTotal())) {
 						String geoId = response.getObj().getPois().get(0).getId();
 						updatePoi(geoId, mUser.getUsername(), addrStr, latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
 					} else {
@@ -513,11 +513,11 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 			LatLng ll;
 			LatLngBounds.Builder builder = new Builder();
 			for (CloudPoiInfo info : mPoiInfos) {
-				if (info.title.equals(mUser.getUsername())) {
-					continue;
-				}
+//				if (info.title.equals(mUser.getUsername())) {
+//					continue;
+//				}
 				ll = new LatLng(info.latitude, info.longitude);
-				OverlayOptions oo = new MarkerOptions().icon(bd).position(ll).title(info.title);
+				OverlayOptions oo = new MarkerOptions().icon(bd).position(ll);
 				mBaiduMap.addOverlay(oo);
 				builder.include(ll);
 				LatLngBounds bounds = builder.build();

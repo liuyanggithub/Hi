@@ -52,7 +52,7 @@ public class ShakeActivity extends BaseActivity {
 			case BaseModel.MSG_SUC:
 				BaseResponseParams<DetailTablesRes> response = (BaseResponseParams<DetailTablesRes>) msg.obj;
 				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-					if (response.getObj().getPois() != null && response.getObj().getPois().size() > 0) {
+					if (!"0".equals(response.getObj().getTotal())) {
 						String geoId = response.getObj().getPois().get(0).getId();
 						deleteGeo(geoId);
 					}

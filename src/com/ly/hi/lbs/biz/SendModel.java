@@ -155,8 +155,8 @@ public class SendModel extends BaseModel {
     }
 
     
-    public  void detailGeotable(String title){
-    	String url = BizInterface.DETAIL_GEOTABLE + title;
+    public  void detailGeotable(String title, String tags){
+    	String url = BizInterface.DETAIL_GEOTABLE + title + "&tags=" + tags;
     	
     	StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -180,7 +180,7 @@ public class SendModel extends BaseModel {
     	addRequest(request);
     }
     
-    public void deletePoi(final String requestID) {
+    public void deletePoiByTitle(final String title) {
         String url = BizInterface.DELETE_POI;
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -204,7 +204,7 @@ public class SendModel extends BaseModel {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("id", requestID);
+                params.put("title", title);
                 params.put("geotable_id", BizInterface.BAIDU_LBS_GEOTABLE_ID);
                 params.put("ak", BizInterface.BAIDU_LBS_AK);
                 return params;

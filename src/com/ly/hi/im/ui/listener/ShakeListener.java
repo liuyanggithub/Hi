@@ -96,7 +96,7 @@ public class ShakeListener implements SensorEventListener {
 		double speed = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ
 				* deltaZ)
 				/ timeInterval * 10000;
-		Log.v("thelog", "===========log===================");
+//		Log.v("thelog", "===========log===================");
 		// 达到速度阀值，发出提示
 		if (speed >= SPEED_SHRESHOLD) {
 			onShakeListener.onShake();

@@ -54,7 +54,7 @@ public class ShakeActivity extends BaseActivity {
 				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
 					if (!"0".equals(response.getObj().getTotal())) {
 						String geoId = response.getObj().getPois().get(0).getId();
-						deleteGeo(geoId);
+						deleteGeoByTitle(geoId);
 					}
 				}
 				break;
@@ -62,7 +62,7 @@ public class ShakeActivity extends BaseActivity {
 
 		}
 	};
-	
+
 	private Handler mDeleteGeoHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -70,6 +70,8 @@ public class ShakeActivity extends BaseActivity {
 			case BaseModel.MSG_SUC:
 				BaseResponseParams<DeletePoiRes> response = (BaseResponseParams<DeletePoiRes>) msg.obj;
 				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
+					ShowToast("delete");
+				} else if ("21".equals(response.getStatus())) {
 					ShowToast("delete");
 				}
 				break;
@@ -96,7 +98,11 @@ public class ShakeActivity extends BaseActivity {
 				// TODO Auto-generated method stub
 				// Intent intent = new Intent(ShakeActivity.this, NearPeopleActivity.class);
 				// startAnimActivity(intent);
-				getDetailTable();
+				// getDetailTable();
+				mUser = mUserManager.getCurrentUser(User.class);
+				if (!TextUtils.isEmpty(mUser.getUsername())) {
+					deleteGeoByTitle(mUser.getUsername());
+				}
 
 			}
 		});
@@ -143,7 +149,7 @@ public class ShakeActivity extends BaseActivity {
 						startActivity(intent);
 						mVibrator.cancel();
 						mShakeListener.start();
-//						finish();
+						// finish();
 					}
 				}, 2000);
 			}
@@ -153,9 +159,9 @@ public class ShakeActivity extends BaseActivity {
 	/**
 	 * 删除数据
 	 */
-	protected void deleteGeo(String id) {
+	protected void deleteGeoByTitle(String title) {
 		mModel = new SendModel(mDeleteGeoHandler, getApplicationContext(), getTag(), getRequestQueue());
-		mModel.deletePoi(id);
+		mModel.deletePoiByTitle(title);
 	}
 
 	/**
@@ -165,7 +171,7 @@ public class ShakeActivity extends BaseActivity {
 		mModel = new SendModel(mDetailTableHandler, getApplicationContext(), getTag(), getRequestQueue());
 
 		mUser = mUserManager.getCurrentUser(User.class);
-		mModel.detailGeotable(mUser.getUsername());
+		mModel.detailGeotable(mUser.getUsername(), mUser.getObjectId());
 	}
 
 	public void startAnim() { // 定义摇一摇动画动画

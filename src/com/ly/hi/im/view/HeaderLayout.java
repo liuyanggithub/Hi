@@ -205,13 +205,14 @@ public class HeaderLayout extends LinearLayout {
 		}
 	}
 
-	public void setTitleAndRightText(CharSequence title, String text, onRightTextViewClickListener onRightTextViewClickListener) {
+	public void setTitleAndRightText(CharSequence title, String text,int backid,  onRightTextViewClickListener onRightTextViewClickListener) {
 		setDefaultTitle(title);
 		mLayoutRightContainer.setVisibility(View.VISIBLE);
 		if (mRightTextView != null) {
 			mRightTextView.setWidth(PixelUtil.dp2px(45));
 			mRightTextView.setHeight(PixelUtil.dp2px(40));
 			mRightTextView.setText(text);
+			mRightTextView.setBackgroundResource(backid);
 			setOnRightTextViewClickListener(onRightTextViewClickListener);
 		}
 	}

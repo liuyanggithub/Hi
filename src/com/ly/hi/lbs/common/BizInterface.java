@@ -13,7 +13,7 @@ package com.ly.hi.lbs.common;
 public interface BizInterface {
 	String BAIDU_LBS_GEOTABLE_ID = "98950";
 	String BAIDU_LBS_GEOTABLE_TYPE = "1";
-    String BAIDU_LBS_AK = "5SudMsMqw27P38x7G8WGTyyc";
+    String BAIDU_LBS_AK = "ouKiQX83oFa3GevQH58hBRWY";
 
     
     String CREATE_GEOTABLE = "http://api.map.baidu.com/geodata/v3/geotable/create";

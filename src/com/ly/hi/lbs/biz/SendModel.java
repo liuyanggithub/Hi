@@ -103,7 +103,7 @@ public class SendModel extends BaseModel {
                 params.put("latitude", req.getLatitude());
                 params.put("longitude", req.getLongitude());
                 params.put("coord_type", req.getCoord_type());
-                params.put("geotable_id", req.getGeotable_id());
+                params.put("geotable_id", BizInterface.BAIDU_LBS_GEOTABLE_ID);
                 params.put("ak", BizInterface.BAIDU_LBS_AK);
                 return params;
             }

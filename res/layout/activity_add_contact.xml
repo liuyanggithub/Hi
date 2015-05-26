@@ -27,7 +27,7 @@
             android:textColorHint="#b3b3b3"
             android:textSize="18sp" />
 
-        <Button
+        <!-- <Button
             android:id="@+id/btn_search"
             style="@style/Smile.TextView._White"
             android:layout_width="60dp"
@@ -36,7 +36,7 @@
             android:layout_marginRight="11dp"
             android:background="@drawable/btn_login_selector"
             android:text="@string/search"
-            android:textSize="14sp" />
+            android:textSize="14sp" /> -->
     </LinearLayout>
 
     <com.ly.hi.im.view.xlist.XListView

@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -20,7 +21,9 @@ import cn.bmob.v3.listener.FindListener;
 
 import com.ly.hi.R;
 import com.ly.hi.im.adapter.AddFriendAdapter;
+import com.ly.hi.im.im.bean.User;
 import com.ly.hi.im.util.CollectionUtils;
+import com.ly.hi.im.view.HeaderLayout.onRightTextViewClickListener;
 import com.ly.hi.im.view.xlist.XListView;
 import com.ly.hi.im.view.xlist.XListView.IXListViewListener;
 
@@ -28,10 +31,10 @@ import com.ly.hi.im.view.xlist.XListView.IXListViewListener;
   * @ClassName: AddFriendActivity
   * @author liuy
   */
-public class AddFriendActivity extends ActivityBase implements OnClickListener,IXListViewListener,OnItemClickListener{
+public class AddFriendActivity extends ActivityBase implements IXListViewListener,OnItemClickListener{
 	
 	EditText et_find_name;
-	Button btn_search;
+//	Button btn_search;
 	
 	List<BmobChatUser> users = new ArrayList<BmobChatUser>();
 	XListView mListView;
@@ -45,10 +48,25 @@ public class AddFriendActivity extends ActivityBase implements OnClickListener,I
 	}
 	
 	private void initView(){
-		initTopBarForLeft("查找好友");
+//		initTopBarForLeft("查找好友");
+		initTopBarForBoth("查找好友", "搜索", new onRightTextViewClickListener() {
+
+			@Override
+			public void onClick() {
+				users.clear();
+				searchName = et_find_name.getText().toString();
+				if(searchName!=null && !searchName.equals("")){
+					initSearchList(false);
+				}else{
+					ShowToast("请输入用户名");
+				}
+			}
+		});
+		mHeaderLayout.getRightTextView().setEnabled(true);
+		
 		et_find_name = (EditText)findViewById(R.id.et_find_name);
-		btn_search = (Button)findViewById(R.id.btn_search);
-		btn_search.setOnClickListener(this);
+//		btn_search = (Button)findViewById(R.id.btn_search);
+//		btn_search.setOnClickListener(this);
 		initXListView();
 	}
 
@@ -168,24 +186,24 @@ public class AddFriendActivity extends ActivityBase implements OnClickListener,I
 	}
 	
 	String searchName ="";
-	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
-		switch (arg0.getId()) {
-		case R.id.btn_search://搜索
-			users.clear();
-			searchName = et_find_name.getText().toString();
-			if(searchName!=null && !searchName.equals("")){
-				initSearchList(false);
-			}else{
-				ShowToast("请输入用户名");
-			}
-			break;
-
-		default:
-			break;
-		}
-	}
+//	@Override
+//	public void onClick(View arg0) {
+//		// TODO Auto-generated method stub
+//		switch (arg0.getId()) {
+//		case R.id.btn_search://搜索
+//			users.clear();
+//			searchName = et_find_name.getText().toString();
+//			if(searchName!=null && !searchName.equals("")){
+//				initSearchList(false);
+//			}else{
+//				ShowToast("请输入用户名");
+//			}
+//			break;
+//
+//		default:
+//			break;
+//		}
+//	}
 
 	@Override
 	public void onRefresh() {

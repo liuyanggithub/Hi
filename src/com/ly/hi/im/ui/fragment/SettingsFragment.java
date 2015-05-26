@@ -1,6 +1,7 @@
 package com.ly.hi.im.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,11 +16,11 @@ import cn.bmob.im.BmobUserManager;
 
 import com.ly.hi.CustomApplication;
 import com.ly.hi.R;
-import com.ly.hi.im.ui.BlackListActivity;
 import com.ly.hi.im.ui.FragmentBase;
 import com.ly.hi.im.ui.LoginActivity;
 import com.ly.hi.im.ui.SetMyInfoActivity;
 import com.ly.hi.im.util.SharePreferenceUtil;
+import com.ly.hi.im.view.dialog.DialogTips;
 
 /**
  * 设置
@@ -147,9 +148,25 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 			startActivity(intent);
 			break;
 		case R.id.btn_logout:
-			CustomApplication.getInstance().logout();
-			getActivity().finish();
-			startActivity(new Intent(getActivity(), LoginActivity.class));
+//			CustomApplication.getInstance().logout();
+//			getActivity().finish();
+//			startActivity(new Intent(getActivity(), LoginActivity.class));
+			DialogTips dialog = new DialogTips(getActivity(), "提示", "是否退出登录", "确定", true, true);
+			
+			dialog.SetOnSuccessListener(new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					CustomApplication.getInstance().logout();
+					getActivity().finish();
+					startActivity(new Intent(getActivity(), LoginActivity.class));
+				}
+			});
+			
+			// 显示确认对话框
+			dialog.show();
+			dialog = null;
+			
 			break;
 		case R.id.rl_switch_notification:
 			if (iv_open_notification.getVisibility() == View.VISIBLE) {

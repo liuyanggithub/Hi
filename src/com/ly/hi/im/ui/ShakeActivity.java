@@ -1,5 +1,6 @@
 package com.ly.hi.im.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,6 +46,8 @@ public class ShakeActivity extends BaseActivity {
 	private BmobUserManager mUserManager;
 	private User mUser;
 
+	private ProgressDialog progress;
+
 	private Handler mDetailTableHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -68,12 +71,16 @@ public class ShakeActivity extends BaseActivity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case BaseModel.MSG_SUC:
+				progress.dismiss();
 				BaseResponseParams<DeletePoiRes> response = (BaseResponseParams<DeletePoiRes>) msg.obj;
 				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-					ShowToast("delete");
+					ShowToast("删除成功！");
 				} else if ("21".equals(response.getStatus())) {
-					ShowToast("delete");
+					ShowToast("删除成功！");
 				}
+				break;
+			default:
+				progress.dismiss();
 				break;
 			}
 
@@ -88,25 +95,29 @@ public class ShakeActivity extends BaseActivity {
 		ShowToast("摇一摇后将自动共享位置信息!");
 		mUserManager = BmobUserManager.getInstance(this);
 		// drawerSet ();//设置 drawer监听 切换 按钮的方向
-		// initTopBarForLeft("摇一摇");
-		// mHeaderLayout.getRightImageButton().setEnabled(false);
+		 initTopBarForLeft("摇一摇");
+		 mHeaderLayout.getRightImageButton().setEnabled(false);
 
-		initTopBarForBoth("摇一摇", "清除位置", new onRightTextViewClickListener() {
-
-			@Override
-			public void onClick() {
-				// TODO Auto-generated method stub
-				// Intent intent = new Intent(ShakeActivity.this, NearPeopleActivity.class);
-				// startAnimActivity(intent);
-				// getDetailTable();
-				mUser = mUserManager.getCurrentUser(User.class);
-				if (!TextUtils.isEmpty(mUser.getUsername())) {
-					deleteGeoByTitle(mUser.getUsername());
-				}
-
-			}
-		});
-		mHeaderLayout.getRightTextView().setEnabled(true);
+//		initTopBarForBoth("摇一摇", "清除位置", new onRightTextViewClickListener() {
+//
+//			@Override
+//			public void onClick() {
+//				// TODO Auto-generated method stub
+//				// Intent intent = new Intent(ShakeActivity.this, NearPeopleActivity.class);
+//				// startAnimActivity(intent);
+//				// getDetailTable();
+//				mUser = mUserManager.getCurrentUser(User.class);
+//				if (!TextUtils.isEmpty(mUser.getUsername())) {
+//					progress = new ProgressDialog(ShakeActivity.this);
+//					progress.setMessage("正在删除中");
+//					progress.setCanceledOnTouchOutside(false);
+//					progress.show();
+//					deleteGeoByTitle(mUser.getUsername());
+//				}
+//
+//			}
+//		});
+//		mHeaderLayout.getRightTextView().setEnabled(true);
 
 		mVibrator = (Vibrator) getApplication().getSystemService(VIBRATOR_SERVICE);
 

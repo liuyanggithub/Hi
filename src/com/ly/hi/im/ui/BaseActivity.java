@@ -181,7 +181,7 @@ public class BaseActivity extends FragmentActivity {
 		mHeaderLayout.setTitleAndLeftImageButton(titleName,
 				R.drawable.base_action_bar_back_bg_selector,
 				new OnLeftButtonClickListener());
-		mHeaderLayout.setTitleAndRightText(titleName, text, listener);
+		mHeaderLayout.setTitleAndRightText(titleName, text,R.drawable.base_action_bar_right_bg_selector, listener);
 	}
 	
 	/**

@@ -73,8 +73,6 @@ public class SendModel extends BaseModel {
 
     public void createPoi(final CreatePoiReq req) {
         String url = BizInterface.CREATE_POI;
-
-
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -103,7 +101,7 @@ public class SendModel extends BaseModel {
                 params.put("latitude", req.getLatitude());
                 params.put("longitude", req.getLongitude());
                 params.put("coord_type", req.getCoord_type());
-                params.put("geotable_id", BizInterface.BAIDU_LBS_GEOTABLE_ID);
+                params.put("geotable_id", req.getGeotable_id());
                 params.put("ak", BizInterface.BAIDU_LBS_AK);
                 return params;
             }
@@ -153,8 +151,6 @@ public class SendModel extends BaseModel {
 
         addRequest(request);
     }
-
-    
     public  void detailGeotable(String title, String tags){
     	String url = BizInterface.DETAIL_GEOTABLE + title + "&tags=" + tags;
     	

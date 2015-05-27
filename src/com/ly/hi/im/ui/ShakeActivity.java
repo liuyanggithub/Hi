@@ -1,5 +1,7 @@
 package com.ly.hi.im.ui;
 
+import java.lang.reflect.Type;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -15,13 +18,23 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import cn.bmob.im.BmobUserManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.ly.hi.R;
 import com.ly.hi.im.im.bean.User;
 import com.ly.hi.im.ui.listener.ShakeListener;
 import com.ly.hi.im.view.HeaderLayout.onRightTextViewClickListener;
 import com.ly.hi.lbs.biz.SendModel;
 import com.ly.hi.lbs.biz.base.BaseModel;
+import com.ly.hi.lbs.common.BizInterface;
 import com.ly.hi.lbs.response.BaseResponseParams;
+import com.ly.hi.lbs.response.CreatePoiRes;
 import com.ly.hi.lbs.response.DeletePoiRes;
 import com.ly.hi.lbs.response.DetailTablesRes;
 
@@ -95,29 +108,25 @@ public class ShakeActivity extends BaseActivity {
 		ShowToast("摇一摇后将自动共享位置信息!");
 		mUserManager = BmobUserManager.getInstance(this);
 		// drawerSet ();//设置 drawer监听 切换 按钮的方向
-		 initTopBarForLeft("摇一摇");
-		 mHeaderLayout.getRightImageButton().setEnabled(false);
+//		 initTopBarForLeft("摇一摇");
+//		 mHeaderLayout.getRightImageButton().setEnabled(false);
 
-//		initTopBarForBoth("摇一摇", "清除位置", new onRightTextViewClickListener() {
-//
-//			@Override
-//			public void onClick() {
-//				// TODO Auto-generated method stub
-//				// Intent intent = new Intent(ShakeActivity.this, NearPeopleActivity.class);
-//				// startAnimActivity(intent);
-//				// getDetailTable();
-//				mUser = mUserManager.getCurrentUser(User.class);
-//				if (!TextUtils.isEmpty(mUser.getUsername())) {
-//					progress = new ProgressDialog(ShakeActivity.this);
-//					progress.setMessage("正在删除中");
-//					progress.setCanceledOnTouchOutside(false);
-//					progress.show();
-//					deleteGeoByTitle(mUser.getUsername());
-//				}
-//
-//			}
-//		});
-//		mHeaderLayout.getRightTextView().setEnabled(true);
+		initTopBarForBoth("摇一摇", "清除位置", new onRightTextViewClickListener() {
+
+			@Override
+			public void onClick() {
+				// TODO Auto-generated method stub
+				// Intent intent = new Intent(ShakeActivity.this, NearPeopleActivity.class);
+				// startAnimActivity(intent);
+				// getDetailTable();
+				mUser = mUserManager.getCurrentUser(User.class);
+				if (!TextUtils.isEmpty(mUser.getUsername())) {
+					deleteGeoByTitle(mUser.getUsername());
+				}
+
+			}
+		});
+		mHeaderLayout.getRightTextView().setEnabled(true);
 
 		mVibrator = (Vibrator) getApplication().getSystemService(VIBRATOR_SERVICE);
 
@@ -171,8 +180,50 @@ public class ShakeActivity extends BaseActivity {
 	 * 删除数据
 	 */
 	protected void deleteGeoByTitle(String title) {
-		mModel = new SendModel(mDeleteGeoHandler, getApplicationContext(), getTag(), getRequestQueue());
-		mModel.deletePoiByTitle(title);
+//		mModel = new SendModel(mDeleteGeoHandler, getApplicationContext(), getTag(), getRequestQueue());
+//		mModel.deletePoiByTitle(title);
+		
+		
+		String url = BizInterface.DELETE_POI;
+		RequestParams params = new RequestParams();
+        params.addBodyParameter("title", title);
+        params.addBodyParameter("geotable_id", BizInterface.BAIDU_LBS_GEOTABLE_ID);
+        params.addBodyParameter("ak", BizInterface.BAIDU_LBS_AK);
+
+        HttpUtils http = new HttpUtils();
+        http.send(HttpRequest.HttpMethod.POST,
+                url,
+                params,
+                new RequestCallBack<String>() {
+                    @Override
+                    public void onStart() {
+                    	progress = new ProgressDialog(ShakeActivity.this);
+    					progress.setMessage("正在删除中");
+    					progress.setCanceledOnTouchOutside(false);
+    					progress.show();
+                    }
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isUploading) {
+                    }
+
+                    @Override
+                    public void onSuccess(ResponseInfo<String> responseInfo) {
+                    	progress.dismiss();
+                    	BaseResponseParams<DeletePoiRes> responseParams = new BaseResponseParams<DeletePoiRes>();
+                        DeletePoiRes data = responseParams.parseResponseData(responseInfo.result, DeletePoiRes.class);
+                        if("0".equals(responseParams.getStatus())){
+                        	ShowToast("删除成功！");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+                    	ShowToast("删除失败！");
+                    	progress.dismiss();
+                    }
+                });
+		
 	}
 
 	/**
@@ -182,7 +233,30 @@ public class ShakeActivity extends BaseActivity {
 		mModel = new SendModel(mDetailTableHandler, getApplicationContext(), getTag(), getRequestQueue());
 
 		mUser = mUserManager.getCurrentUser(User.class);
-		mModel.detailGeotable(mUser.getUsername(), mUser.getObjectId());
+//		mModel.detailGeotable(mUser.getUsername(), mUser.getObjectId());
+		
+		
+		String url = BizInterface.DETAIL_GEOTABLE + mUser.getUsername() + "&tags=" + mUser.getObjectId();
+		HttpUtils http = new HttpUtils();
+		http.send(HttpRequest.HttpMethod.GET,
+		    url,
+		    new RequestCallBack<String>(){
+		        @Override
+		        public void onLoading(long total, long current, boolean isUploading) {
+		        }
+
+		        @Override
+		        public void onSuccess(ResponseInfo<String> responseInfo) {
+		        }
+
+		        @Override
+		        public void onStart() {
+		        }
+
+		        @Override
+		        public void onFailure(HttpException error, String msg) {
+		        }
+		});
 	}
 
 	public void startAnim() { // 定义摇一摇动画动画

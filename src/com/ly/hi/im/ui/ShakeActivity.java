@@ -61,44 +61,44 @@ public class ShakeActivity extends BaseActivity {
 
 	private ProgressDialog progress;
 
-	private Handler mDetailTableHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case BaseModel.MSG_SUC:
-				BaseResponseParams<DetailTablesRes> response = (BaseResponseParams<DetailTablesRes>) msg.obj;
-				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-					if (!"0".equals(response.getObj().getTotal())) {
-						String geoId = response.getObj().getPois().get(0).getId();
-						deleteGeoByTitle(geoId);
-					}
-				}
-				break;
-			}
-
-		}
-	};
-
-	private Handler mDeleteGeoHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case BaseModel.MSG_SUC:
-				progress.dismiss();
-				BaseResponseParams<DeletePoiRes> response = (BaseResponseParams<DeletePoiRes>) msg.obj;
-				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-					ShowToast("删除成功！");
-				} else if ("21".equals(response.getStatus())) {
-					ShowToast("删除成功！");
-				}
-				break;
-			default:
-				progress.dismiss();
-				break;
-			}
-
-		}
-	};
+//	private Handler mDetailTableHandler = new Handler() {
+//		@Override
+//		public void handleMessage(Message msg) {
+//			switch (msg.what) {
+//			case BaseModel.MSG_SUC:
+//				BaseResponseParams<DetailTablesRes> response = (BaseResponseParams<DetailTablesRes>) msg.obj;
+//				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
+//					if (!"0".equals(response.getObj().getTotal())) {
+//						String geoId = response.getObj().getPois().get(0).getId();
+//						deleteGeoByTitle(geoId);
+//					}
+//				}
+//				break;
+//			}
+//
+//		}
+//	};
+//
+//	private Handler mDeleteGeoHandler = new Handler() {
+//		@Override
+//		public void handleMessage(Message msg) {
+//			switch (msg.what) {
+//			case BaseModel.MSG_SUC:
+//				progress.dismiss();
+//				BaseResponseParams<DeletePoiRes> response = (BaseResponseParams<DeletePoiRes>) msg.obj;
+//				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
+//					ShowToast("删除成功！");
+//				} else if ("21".equals(response.getStatus())) {
+//					ShowToast("删除成功！");
+//				}
+//				break;
+//			default:
+//				progress.dismiss();
+//				break;
+//			}
+//
+//		}
+//	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -198,7 +198,7 @@ public class ShakeActivity extends BaseActivity {
                     @Override
                     public void onStart() {
                     	progress = new ProgressDialog(ShakeActivity.this);
-    					progress.setMessage("正在删除中");
+    					progress.setMessage("正在清除中");
     					progress.setCanceledOnTouchOutside(false);
     					progress.show();
                     }
@@ -213,13 +213,17 @@ public class ShakeActivity extends BaseActivity {
                     	BaseResponseParams<DeletePoiRes> responseParams = new BaseResponseParams<DeletePoiRes>();
                         DeletePoiRes data = responseParams.parseResponseData(responseInfo.result, DeletePoiRes.class);
                         if("0".equals(responseParams.getStatus())){
-                        	ShowToast("删除成功！");
+                        	ShowToast("清除成功！");
+                        }if ("21".equals(responseParams.getStatus())){
+                        	ShowToast("清除成功！");
+                        }else{
+                        	ShowToast("清除失败！");
                         }
                     }
 
                     @Override
                     public void onFailure(HttpException error, String msg) {
-                    	ShowToast("删除失败！");
+                    	ShowToast("清除失败！");
                     	progress.dismiss();
                     }
                 });
@@ -229,35 +233,35 @@ public class ShakeActivity extends BaseActivity {
 	/**
 	 * 获取列表详细
 	 */
-	protected void getDetailTable() {
-		mModel = new SendModel(mDetailTableHandler, getApplicationContext(), getTag(), getRequestQueue());
-
-		mUser = mUserManager.getCurrentUser(User.class);
-//		mModel.detailGeotable(mUser.getUsername(), mUser.getObjectId());
-		
-		
-		String url = BizInterface.DETAIL_GEOTABLE + mUser.getUsername() + "&tags=" + mUser.getObjectId();
-		HttpUtils http = new HttpUtils();
-		http.send(HttpRequest.HttpMethod.GET,
-		    url,
-		    new RequestCallBack<String>(){
-		        @Override
-		        public void onLoading(long total, long current, boolean isUploading) {
-		        }
-
-		        @Override
-		        public void onSuccess(ResponseInfo<String> responseInfo) {
-		        }
-
-		        @Override
-		        public void onStart() {
-		        }
-
-		        @Override
-		        public void onFailure(HttpException error, String msg) {
-		        }
-		});
-	}
+//	protected void getDetailTable() {
+////		mModel = new SendModel(mDetailTableHandler, getApplicationContext(), getTag(), getRequestQueue());
+//
+//		mUser = mUserManager.getCurrentUser(User.class);
+////		mModel.detailGeotable(mUser.getUsername(), mUser.getObjectId());
+//		
+//		
+//		String url = BizInterface.DETAIL_GEOTABLE + mUser.getUsername() + "&tags=" + mUser.getObjectId();
+//		HttpUtils http = new HttpUtils();
+//		http.send(HttpRequest.HttpMethod.GET,
+//		    url,
+//		    new RequestCallBack<String>(){
+//		        @Override
+//		        public void onLoading(long total, long current, boolean isUploading) {
+//		        }
+//
+//		        @Override
+//		        public void onSuccess(ResponseInfo<String> responseInfo) {
+//		        }
+//
+//		        @Override
+//		        public void onStart() {
+//		        }
+//
+//		        @Override
+//		        public void onFailure(HttpException error, String msg) {
+//		        }
+//		});
+//	}
 
 	public void startAnim() { // 定义摇一摇动画动画
 		AnimationSet animup = new AnimationSet(true);

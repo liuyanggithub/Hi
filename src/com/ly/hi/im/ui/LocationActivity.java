@@ -19,7 +19,7 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationConfigeration;
+import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
@@ -130,8 +130,8 @@ public class LocationActivity extends BaseActivity implements
 	private void initLocClient() {
 //		 开启定位图层
 		mBaiduMap.setMyLocationEnabled(true);
-		mBaiduMap.setMyLocationConfigeration(new MyLocationConfigeration(
-				com.baidu.mapapi.map.MyLocationConfigeration.LocationMode.NORMAL, true, null));
+		mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
+				com.baidu.mapapi.map.MyLocationConfiguration.LocationMode.NORMAL, true, null));
 		// 定位初始化
 		mLocClient = new LocationClient(this);
 		mLocClient.registerLocationListener(myListener);

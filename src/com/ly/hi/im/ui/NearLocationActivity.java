@@ -39,7 +39,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationConfigeration;
+import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
@@ -112,83 +112,83 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 
 	// private boolean mIsUpdatePoi = false;
 
-	private Handler mDeleteGeoHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case BaseModel.MSG_SUC:
-				String latitude = lastLocation.getLatitude() + "";
-				String longitude = lastLocation.getLongitude() + "";
-				String addrStr = lastLocation.getAddrStr();
-				BaseResponseParams<DeletePoiRes> response = (BaseResponseParams<DeletePoiRes>) msg.obj;
-				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-//					ShowToast("delete");
-				} else if ("21".equals(response.getStatus())) {
-//					ShowToast("delete");
-					createPoi(mUser.getUsername(), addrStr, mUser.getObjectId(), latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
-					nearbySearch(latitude, longitude);
-				}
-				break;
-			default:
-				ShowToast("获取信息失败，请重试~");
-				break;
-			}
-
-		}
-	};
-
-	private Handler mCreatePoiHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case BaseModel.MSG_SUC:
-				BaseResponseParams<CreatePoiRes> response = (BaseResponseParams<CreatePoiRes>) msg.obj;
-				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-					ShowToast("creat" + response.getMessage());
-				}
-				break;
-			}
-
-		}
-	};
-
-	private Handler mUpdatePoiHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case BaseModel.MSG_SUC:
-				BaseResponseParams<UpdatePoiRes> response = (BaseResponseParams<UpdatePoiRes>) msg.obj;
-				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-					ShowToast("update" + response.getMessage());
-				}
-				break;
-			}
-
-		}
-	};
-
-	private Handler mDetailTableHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case BaseModel.MSG_SUC:
-				BaseResponseParams<DetailTablesRes> response = (BaseResponseParams<DetailTablesRes>) msg.obj;
-				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
-					String latitude = lastLocation.getLatitude() + "";
-					String longitude = lastLocation.getLongitude() + "";
-					String addrStr = lastLocation.getAddrStr();
-					if (!"0".equals(response.getObj().getTotal())) {
-						String geoId = response.getObj().getPois().get(0).getId();
-						updatePoi(geoId, mUser.getUsername(), addrStr, latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
-					} else {
-						createPoi(mUser.getUsername(), addrStr, mUser.getObjectId(), latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
-					}
-				}
-				break;
-			}
-
-		}
-	};
+//	private Handler mDeleteGeoHandler = new Handler() {
+//		@Override
+//		public void handleMessage(Message msg) {
+//			switch (msg.what) {
+//			case BaseModel.MSG_SUC:
+//				String latitude = lastLocation.getLatitude() + "";
+//				String longitude = lastLocation.getLongitude() + "";
+//				String addrStr = lastLocation.getAddrStr();
+//				BaseResponseParams<DeletePoiRes> response = (BaseResponseParams<DeletePoiRes>) msg.obj;
+//				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
+////					ShowToast("delete");
+//				} else if ("21".equals(response.getStatus())) {
+////					ShowToast("delete");
+//					createPoi(mUser.getUsername(), addrStr, mUser.getObjectId(), latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
+//					nearbySearch(latitude, longitude);
+//				}
+//				break;
+//			default:
+//				ShowToast("获取信息失败，请重试~");
+//				break;
+//			}
+//
+//		}
+//	};
+//
+//	private Handler mCreatePoiHandler = new Handler() {
+//		@Override
+//		public void handleMessage(Message msg) {
+//			switch (msg.what) {
+//			case BaseModel.MSG_SUC:
+//				BaseResponseParams<CreatePoiRes> response = (BaseResponseParams<CreatePoiRes>) msg.obj;
+//				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
+//					ShowToast("creat" + response.getMessage());
+//				}
+//				break;
+//			}
+//
+//		}
+//	};
+//
+//	private Handler mUpdatePoiHandler = new Handler() {
+//		@Override
+//		public void handleMessage(Message msg) {
+//			switch (msg.what) {
+//			case BaseModel.MSG_SUC:
+//				BaseResponseParams<UpdatePoiRes> response = (BaseResponseParams<UpdatePoiRes>) msg.obj;
+//				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
+//					ShowToast("update" + response.getMessage());
+//				}
+//				break;
+//			}
+//
+//		}
+//	};
+//
+//	private Handler mDetailTableHandler = new Handler() {
+//		@Override
+//		public void handleMessage(Message msg) {
+//			switch (msg.what) {
+//			case BaseModel.MSG_SUC:
+//				BaseResponseParams<DetailTablesRes> response = (BaseResponseParams<DetailTablesRes>) msg.obj;
+//				if (BaseModel.REQ_SUC.equals(response.getStatus())) {
+//					String latitude = lastLocation.getLatitude() + "";
+//					String longitude = lastLocation.getLongitude() + "";
+//					String addrStr = lastLocation.getAddrStr();
+//					if (!"0".equals(response.getObj().getTotal())) {
+//						String geoId = response.getObj().getPois().get(0).getId();
+//						updatePoi(geoId, mUser.getUsername(), addrStr, latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
+//					} else {
+//						createPoi(mUser.getUsername(), addrStr, mUser.getObjectId(), latitude, longitude, "1", BizInterface.BAIDU_LBS_GEOTABLE_ID);
+//					}
+//				}
+//				break;
+//			}
+//
+//		}
+//	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -284,9 +284,10 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 								intent.putExtra("username", info.title);
 								startAnimActivity(intent);
 								finish();
-							} else {
-								ShowToast("自己不能添加自己");
 							}
+//							else {
+//								ShowToast("自己不能添加自己");
+//							}
 
 						}
 					}
@@ -321,7 +322,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 	private void initLocClient() {
 		// 开启定位图层
 		mBaiduMap.setMyLocationEnabled(true);
-		mBaiduMap.setMyLocationConfigeration(new MyLocationConfigeration(com.baidu.mapapi.map.MyLocationConfigeration.LocationMode.NORMAL, true, null));
+		mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(com.baidu.mapapi.map.MyLocationConfiguration.LocationMode.NORMAL, true, null));
 		// 定位初始化
 		mLocClient = new LocationClient(this);
 		mLocClient.registerLocationListener(myListener);
@@ -377,13 +378,12 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 					// CustomApplication.getInstance().getSpUtil().setLastUser(mUserManager.getCurrentUserObjectId());
 					// }
 					deleteGeoByTitle(mUser.getUsername());
-					nearbySearch(latitude, longitude);
 					return;
 				}
 				
 				
 				deleteGeoByTitle(mUser.getUsername());
-				nearbySearch(latitude, longitude);
+//				nearbySearch(latitude, longitude);
 
 			}else{
 				String latitude = location.getLatitude() + "";
@@ -432,10 +432,10 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 	/**
 	 * 获取列表详细
 	 */
-	protected void getDetailTableByName(String name, String tags) {
-		mModel = new SendModel(mDetailTableHandler, getApplicationContext(), getTag(), getRequestQueue());
-		mModel.detailGeotable(name, tags);
-	}
+//	protected void getDetailTableByName(String name, String tags) {
+//		mModel = new SendModel(mDetailTableHandler, getApplicationContext(), getTag(), getRequestQueue());
+//		mModel.detailGeotable(name, tags);
+//	}
 
 	/**
 	 * 构造广播监听类，监听 SDK key 验证以及网络异常广播
@@ -500,7 +500,7 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 		CloudManager.getInstance().destroy();
 	}
 
-	private void createPoi(String title, String address, String tags, String latitude, String longitude, String coord_type, String geotable_id) {
+	private void createPoi(String title, String address, String tags, final String latitude, final String longitude, String coord_type, String geotable_id) {
 //		mModel = new SendModel(mCreatePoiHandler, getApplicationContext(), getTag(), getRequestQueue());
 //		CreatePoiReq req = new CreatePoiReq(title, address, tags, latitude, longitude, coord_type, geotable_id);
 //		mModel.createPoi(req);
@@ -530,10 +530,10 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 
                     @Override
                     public void onSuccess(ResponseInfo<String> responseInfo) {
-                    	progress.dismiss();
                     	BaseResponseParams<CreatePoiRes> responseParams = new BaseResponseParams<CreatePoiRes>();
                     	CreatePoiRes data = responseParams.parseResponseData(responseInfo.result, CreatePoiRes.class);
                     	ShowToast("创建位置 " + responseParams.getMessage());
+                    	nearbySearch(latitude, longitude);
                         if("0".equals(responseParams.getStatus())){
 //                        	ShowToast("crate成功！");
                         }
@@ -542,7 +542,6 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
                     @Override
                     public void onFailure(HttpException error, String msg) {
                     	ShowToast("失败！");
-                    	progress.dismiss();
                     }
                 });
 		
@@ -579,7 +578,6 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 
                     @Override
                     public void onSuccess(ResponseInfo<String> responseInfo) {
-                    	progress.dismiss();
                     	BaseResponseParams<UpdatePoiReq> responseParams = new BaseResponseParams<UpdatePoiReq>();
                     	UpdatePoiReq data = responseParams.parseResponseData(responseInfo.result, UpdatePoiReq.class);
                         if("0".equals(responseParams.getStatus())){
@@ -590,7 +588,6 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
                     @Override
                     public void onFailure(HttpException error, String msg) {
                     	ShowToast("失败！");
-                    	progress.dismiss();
                     }
                 });
 		
@@ -639,7 +636,6 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
                     @Override
                     public void onFailure(HttpException error, String msg) {
                     	ShowToast("删除失败！");
-                    	progress.dismiss();
                     }
                 });
 	}
@@ -687,11 +683,11 @@ public class NearLocationActivity extends BaseActivity implements OnGetGeoCoderR
 			LatLng ll;
 			LatLngBounds.Builder builder = new Builder();
 			for (CloudPoiInfo info : mPoiInfos) {
-				// if (info.title.equals(mUser.getUsername())) {
-				// continue;
-				// }
+				 if (info.title.equals(mUser.getUsername())) {
+					 continue;
+				 }
 				ll = new LatLng(info.latitude, info.longitude);
-				OverlayOptions oo = new MarkerOptions().icon(bd).position(ll);
+				OverlayOptions oo = new MarkerOptions().icon(bd).position(ll).title(info.title);
 				mBaiduMap.addOverlay(oo);
 				builder.include(ll);
 				LatLngBounds bounds = builder.build();

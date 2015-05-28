@@ -58,7 +58,7 @@ public class CustomApplication extends Application {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		// 是否开启debug模式--默认开启状态
-		BmobChat.DEBUG_MODE = true;
+		BmobChat.DEBUG_MODE = false;
 		mInstance = this;
 		init();
 	}

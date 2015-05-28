@@ -3,6 +3,7 @@ package com.ly.hi.im.ui;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,12 +26,14 @@ import cn.bmob.im.bean.BmobMsg;
 import cn.bmob.im.config.BmobConfig;
 import cn.bmob.im.db.BmobDB;
 import cn.bmob.im.inteface.EventListener;
+
 import com.ly.hi.CustomApplication;
 import com.ly.hi.R;
 import com.ly.hi.im.common.MyMessageReceiver;
 import com.ly.hi.im.ui.fragment.ContactFragment;
 import com.ly.hi.im.ui.fragment.RecentFragment;
 import com.ly.hi.im.ui.fragment.SettingsFragment;
+import com.ly.hi.im.view.LockViewPager;
 import com.ly.hi.im.view.TabShadeView;
 
 /**
@@ -41,7 +44,7 @@ import com.ly.hi.im.view.TabShadeView;
  */
 public class MainActivity extends ActivityBase implements EventListener, ViewPager.OnPageChangeListener, OnClickListener {
 
-	private ViewPager mViewPager;
+	private LockViewPager mViewPager;
 	private List<Fragment> mTabs = new ArrayList<Fragment>();
 	private FragmentPagerAdapter mAdapter;
 	private List<TabShadeView> mTabIndicator = new ArrayList<TabShadeView>();
@@ -105,10 +108,12 @@ public class MainActivity extends ActivityBase implements EventListener, ViewPag
 		// 把第一个tab设为选中状态
 		// mTabs[0].setSelected(true);
 
-		mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
+		mViewPager = (LockViewPager) findViewById(R.id.id_viewpager);
 		initDatas();
 		mViewPager.setAdapter(mAdapter);
 		mViewPager.setOnPageChangeListener(this);
+		mViewPager.setOffscreenPageLimit(0);
+		mViewPager.setLocked(false);
 
 	}
 

@@ -156,4 +156,20 @@ public class RecentFragment extends FragmentBase implements OnItemClickListener,
 		}
 	}
 	
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if(isVisibleToUser){
+			refresh();
+		}else{
+			
+		}
+	}
+	
+
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
 }

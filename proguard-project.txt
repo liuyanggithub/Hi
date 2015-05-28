@@ -81,3 +81,5 @@
 -keepclasseswithmembernames class com.baidu.location.** {
     *;
 }
+#XUtils
+-keep class * extends java.lang.annotation.Annotation { *; }

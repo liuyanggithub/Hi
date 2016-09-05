@@ -16,5 +16,7 @@ A chat application, based near the support of people shown on the map(LBS)
 ![](http://7xrdzx.com1.z0.glb.clouddn.com/Hi1.jpg)
 ![](http://7xrdzx.com1.z0.glb.clouddn.com/Hi2.jpg)
 
-## About me
-* Email: [lyyx@outlook.com]
+##**About me**
+* [Email](LYYX@outlook.com)
+* [WeiBo](http://weibo.com/liuyang6)
+* [Blog](http://blog.csdn.net/ly502541243)

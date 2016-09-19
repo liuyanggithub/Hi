@@ -13,8 +13,9 @@ A chat application, based near the support of people shown on the map(LBS)
 - 黑名单，发送语音，表情，图片，位置等
 
 ###截图
-![](http://7xrdzx.com1.z0.glb.clouddn.com/Hi1.jpg)
-![](http://7xrdzx.com1.z0.glb.clouddn.com/Hi2.jpg)
+![](./Hi1.jpg)
+
+![](./Hi2.jpg)
 
 ##**About me**
 * [Email](LYYX@outlook.com)
